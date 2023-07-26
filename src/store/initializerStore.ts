@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from 'react'
 
-import { Anime } from '@/services/jikan/type'
+import type { Anime } from '@/services/http/anime/schema'
 
 import { animeStore } from './animeStore'
 

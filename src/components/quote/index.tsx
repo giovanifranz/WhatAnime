@@ -1,6 +1,6 @@
 import type { HtmlHTMLAttributes } from 'react'
 
-import { getAnimesByTitle } from '@/services/jikan'
+import animeService from '@/services/http/anime'
 import { getRandomQuote } from '@/services/quote'
 
 import { cn } from '@/lib/utils'
@@ -14,8 +14,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export async function Quote({ className, ...rest }: Props) {
   const { anime, character, quote } = await getRandomQuote()
-  const { data } = await getAnimesByTitle(anime)
-  animeStore.setState({ animeQuote: data[0] })
+
+  const animeQuote = await animeService
+    .getAnimesByTitle(anime)
+    .then((data) => data[0])
+  animeStore.setState({ animeQuote })
 
   return (
     <div
@@ -32,7 +35,7 @@ export async function Quote({ className, ...rest }: Props) {
         <span className="truncate">{anime}</span>
       </div>
       <Button />
-      <InitializerStore animeQuote={data[0]} />
+      <InitializerStore animeQuote={animeQuote} />
     </div>
   )
 }

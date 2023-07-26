@@ -1,6 +1,6 @@
 import type { HtmlHTMLAttributes } from 'react'
 
-import { getAnimesByAiring, getAnimesByPopularity } from '@/services/jikan'
+import animeService from '@/services/http/anime'
 
 import { cn } from '@/lib/utils'
 
@@ -12,11 +12,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const rankingMap = {
   airing: {
-    getAnimes: getAnimesByAiring,
+    getAnimes: animeService.getAnimesByAiring,
     heading: 'Top Airing',
   },
   popular: {
-    getAnimes: getAnimesByPopularity,
+    getAnimes: animeService.getAnimesByPopularity,
     heading: 'Most Popular',
   },
 } as const
@@ -39,8 +39,8 @@ export async function Ranking({ className, type, ...rest }: Props) {
       </h2>
 
       <ul className="flex h-full flex-col items-center justify-center gap-3 p-4">
-        {data.map(({ mal_id, title }, index) => (
-          <ListItem key={mal_id} mal_id={mal_id} title={title} index={index} />
+        {data.map(({ id, title }, index) => (
+          <ListItem key={id} id={id} title={title} index={index} />
         ))}
       </ul>
     </section>

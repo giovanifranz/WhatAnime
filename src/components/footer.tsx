@@ -61,7 +61,12 @@ export function Footer() {
           </p>
           <span className="-mb-4 mt-4">DESIGNED BY</span>
           <Link href="https://www.highlandertech.com.br/">
-            <Image src={Highlander} alt="HighlanderTech" />
+            <Image
+              src={Highlander}
+              alt="HighlanderTech"
+              width={257}
+              height={65}
+            />
           </Link>
         </div>
       </div>

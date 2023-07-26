@@ -18,7 +18,7 @@ export default function Fetched() {
 
   const handleMouseEnter = useCallback(async () => {
     if (!byTitle) return
-    await getAnimeById(byTitle.mal_id)
+    await getAnimeById(byTitle.id)
   }, [byTitle, getAnimeById])
 
   if (!byTitle) return null
@@ -26,11 +26,7 @@ export default function Fetched() {
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
       <div className="relative hidden w-56 rounded-l-lg border-r-2 md:block">
-        <Image
-          src={byTitle.images.webp.image_url || byTitle.images.jpg.image_url}
-          alt={byTitle.title}
-          fill
-        />
+        <Image src={byTitle.image} alt={byTitle.title} fill />
       </div>
       <div className="w-full p-4">
         <CardContent className="flex flex-row-reverse items-start justify-between px-0 md:flex-row">
@@ -49,10 +45,7 @@ export default function Fetched() {
             )}
           </div>
           <Button asChild>
-            <Link
-              href={`/anime/${byTitle.mal_id}`}
-              onMouseEnter={handleMouseEnter}
-            >
+            <Link href={`/anime/${byTitle.id}`} onMouseEnter={handleMouseEnter}>
               Go to Page
             </Link>
           </Button>

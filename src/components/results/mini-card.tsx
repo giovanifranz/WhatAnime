@@ -1,4 +1,4 @@
-import { Anime } from '@/services/jikan/type'
+import type { Anime } from '@/services/http/anime/schema'
 
 import { Card, CardFooter } from '../ui/card'
 

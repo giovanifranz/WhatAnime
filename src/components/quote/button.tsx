@@ -9,22 +9,22 @@ import { animeStore } from '@/store/animeStore'
 import { Button } from '../ui/button'
 
 export default function QuoteButton() {
-  const { mal_id, getAnimeById } = animeStore((store) => ({
-    mal_id: store.animeQuote ? store.animeQuote.mal_id : null,
+  const { id, getAnimeById } = animeStore((store) => ({
+    id: store.animeQuote && store.animeQuote.id,
     getAnimeById: store.getAnimeById,
   }))
 
   const handleMouseOver = useCallback(async () => {
-    if (!mal_id) return
+    if (!id) return
 
-    await getAnimeById(mal_id)
-  }, [getAnimeById, mal_id])
+    await getAnimeById(id)
+  }, [getAnimeById, id])
 
-  if (!mal_id) return null
+  if (!id) return null
 
   return (
     <Button asChild className="absolute bottom-4 right-4">
-      <Link href={`/anime/${mal_id}`} onMouseOver={handleMouseOver}>
+      <Link href={`/anime/${id}`} onMouseOver={handleMouseOver}>
         <ImArrowRight2 size={20} />
       </Link>
     </Button>

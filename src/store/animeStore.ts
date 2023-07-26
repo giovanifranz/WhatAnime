@@ -1,9 +1,5 @@
-import {
-  getAnimeById,
-  getAnimesByTitle,
-  getAnimeRandom,
-} from '@/services/jikan'
-import type { Anime } from '@/services/jikan/type'
+import animeService from '@/services/http/anime'
+import type { Anime } from '@/services/http/anime/schema'
 import { create } from 'zustand'
 
 type Props = {
@@ -23,7 +19,7 @@ interface Store extends Props {
   setAnimeById: (anime: Anime) => Promise<void>
 }
 
-const initialState = {
+export const initialState = {
   byTitle: null,
   byId: null,
   othersTitles: null,
@@ -38,25 +34,25 @@ export type AnimeStore = ReturnType<typeof animeStore>
 export const animeStore = create<Store>((set) => ({
   ...initialState,
   getAnimesByTitle: async (title: string) => {
-    await getAnimesByTitle(title).then((res) => {
-      if (!res.data) return
+    await animeService.getAnimesByTitle(title).then((data) => {
+      if (!data) return
       set((state) => ({
         ...state,
-        byTitle: res.data[0],
-        othersTitles: res.data.slice(1, 5),
+        byTitle: data[0],
+        othersTitles: data.slice(1, 5),
       }))
     })
   },
   getAnimeRandom: async () => {
-    await getAnimeRandom().then((res) => {
-      if (!res.data) return
-      set((state) => ({ ...state, random: res.data }))
+    await animeService.getAnimeRandom().then((data) => {
+      if (!data) return
+      set((state) => ({ ...state, random: data }))
     })
   },
   getAnimeById: async (id: number) => {
-    await getAnimeById(id).then((res) => {
-      if (!res.data) return
-      set((state) => ({ ...state, byId: res.data }))
+    await animeService.getAnimeById(id).then((data) => {
+      if (!data) return
+      set((state) => ({ ...state, byId: data }))
     })
   },
   setAnimeById: async (anime: Anime) => {

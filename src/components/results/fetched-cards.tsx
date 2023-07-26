@@ -24,17 +24,14 @@ export default function FetchedCards() {
 
   return (
     <div className="mt-4 flex flex-wrap justify-between ">
-      {othersTitles.map(({ mal_id, title, images }) => (
+      {othersTitles.map(({ id, title, image }) => (
         <Link
-          href={`/anime/${mal_id}`}
-          key={mal_id}
+          href={`/anime/${id}`}
+          key={id}
           className="transition-all hover:opacity-80"
-          onMouseEnter={() => handleMouseEnter(mal_id)}
+          onMouseEnter={() => handleMouseEnter(id)}
         >
-          <MiniCard
-            image={images.webp.image_url || images.jpg.image_url}
-            title={title}
-          />
+          <MiniCard image={image} title={title} />
         </Link>
       ))}
     </div>

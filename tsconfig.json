@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/heading/result-headingtsx"
+    "src/components/heading/result-headingtsx",
+    "src/components/footer.testtsx"
   ],
   "exclude": ["node_modules"]
 }
