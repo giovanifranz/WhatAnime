@@ -1,26 +1,28 @@
-import clsx from "clsx";
-import { HtmlHTMLAttributes } from "react";
-import { Button } from "./ui/button";
-import { ImArrowRight2 } from "react-icons/im";
+import { HtmlHTMLAttributes } from 'react'
+import { ImArrowRight2 } from 'react-icons/im'
 
-type Props = HtmlHTMLAttributes<HTMLDivElement>;
+import clsx from 'clsx'
+
+import { Button } from './ui/button'
+
+type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export function Quote({ className, ...rest }: Props) {
   return (
     <div
       className={clsx(
-        "bg-yellow-400 rounded-lg text-neutral-800 p-4",
-        className
+        'rounded-lg bg-yellow-400 p-4 text-neutral-800',
+        className,
       )}
       {...rest}
     >
-      <p className="line-clamp-3 mb-2">
-        "Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
+      <p className="mb-2 line-clamp-3">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry standard dummy text ever
         since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book."
+        scrambled it to make a type specimen book.
       </p>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <span className="font-bold">Elliot Nightray</span>
           <span>Pandora Hearts</span>
@@ -30,5 +32,5 @@ export function Quote({ className, ...rest }: Props) {
         </Button>
       </div>
     </div>
-  );
+  )
 }

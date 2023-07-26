@@ -1,24 +1,26 @@
-import Highlander from "@/assets/highlander.svg";
-import { Separator } from "./ui/separator";
-import Image from "next/image";
-import { Logo } from "./logo";
-import Link from "next/link";
-import { SiAnilist, SiMyanimelist } from "react-icons/si";
-import { Social } from "./social";
+import Image from 'next/image'
+import Link from 'next/link'
 import {
   RiInstagramFill,
   RiFacebookFill,
   RiTwitterFill,
   RiPaypalFill,
-} from "react-icons/ri";
+} from 'react-icons/ri'
+import { SiAnilist, SiMyanimelist } from 'react-icons/si'
+
+import Highlander from '@/assets/highlander.svg'
+
+import { Logo } from './logo'
+import { Social } from './social'
+import { Separator } from './ui/separator'
 
 export function Footer() {
   return (
     <footer className="bg-neutral-800">
-      <div className="mx-auto max-w-7xl flex p-4 gap-4">
+      <div className="mx-auto flex max-w-7xl gap-4 p-4">
         <div className="w-2/5">
           <Logo />
-          <div className="flex flex-col gap-2 mt-8">
+          <div className="mt-8 flex flex-col gap-2">
             <span>CONNECT</span>
             <div className="flex gap-4">
               <Social href="/" icon={SiMyanimelist} />
@@ -35,7 +37,7 @@ export function Footer() {
         </div>
         <Separator
           orientation="vertical"
-          className="bg-neutral-200 h-72 my-auto"
+          className="my-auto h-72 bg-neutral-200"
         />
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
@@ -45,7 +47,7 @@ export function Footer() {
             </p>
             <Link
               href="/"
-              className="rounded-full text-neutral-800 bg-neutral-100 p-2"
+              className="rounded-full bg-neutral-100 p-2 text-neutral-800"
             >
               <RiPaypalFill size={56} />
             </Link>
@@ -57,12 +59,12 @@ export function Footer() {
             of these anime series. Anime information compiled from AniList and
             MyAnimeList.
           </p>
-          <span className="mt-4 -mb-4">DESIGNED BY</span>
+          <span className="-mb-4 mt-4">DESIGNED BY</span>
           <Link href="https://www.highlandertech.com.br/">
             <Image src={Highlander} alt="HighlanderTech" />
           </Link>
         </div>
       </div>
     </footer>
-  );
+  )
 }

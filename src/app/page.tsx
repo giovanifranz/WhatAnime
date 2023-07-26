@@ -1,15 +1,15 @@
-import { BigCard } from "@/components/big-card";
-import { MiniCard } from "@/components/mini-card";
-import { Quote } from "@/components/quote";
-import { Ranking } from "@/components/ranking";
-import { Search } from "@/components/search";
+import { BigCard } from '@/components/big-card'
+import { MiniCard } from '@/components/mini-card'
+import { Quote } from '@/components/quote'
+import { Ranking } from '@/components/ranking'
+import { Search } from '@/components/search'
 
 export default function Home() {
   return (
-    <section className="grid grid-cols-1 p-4 md:grid-cols-8 gap-4">
+    <section className="grid grid-cols-1 gap-4 p-4 md:grid-cols-8">
       <Search className="md:col-span-6" />
       <Quote className="md:col-span-2" />
-      <h2 className="md:col-span-8 uppercase scroll-m-20 text-3xl font-semibold tracking-tight">
+      <h2 className="scroll-m-20 text-3xl font-semibold uppercase tracking-tight md:col-span-8">
         Anime of the day
       </h2>
       <BigCard className="md:col-span-6" />
@@ -20,10 +20,10 @@ export default function Home() {
         <li>teste</li>
         <li>teste</li>
       </Ranking>
-      <h2 className="mt-4 md:col-span-8 uppercase scroll-m-20 text-3xl font-semibold tracking-tight">
+      <h2 className="mt-4 scroll-m-20 text-3xl font-semibold uppercase tracking-tight md:col-span-8">
         Results
       </h2>
-      <div className="md:col-span-6 max-w-4xl">
+      <div className="max-w-4xl md:col-span-6">
         <BigCard />
         <div className="mt-4 flex flex-wrap justify-between">
           <MiniCard />
@@ -45,5 +45,5 @@ export default function Home() {
         <li>teste</li>
       </Ranking>
     </section>
-  );
+  )
 }
