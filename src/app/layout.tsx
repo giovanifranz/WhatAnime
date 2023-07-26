@@ -3,11 +3,14 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import type { PropsWithChildren } from 'react'
 
-import clsx from 'clsx'
+import { Analytics } from '@vercel/analytics/react'
 
+import { AxeCore } from '@/components'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
+
+import { cn } from '@/lib/utils'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -24,13 +27,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={clsx(roboto.className, 'scroll-smooth antialiased')}>
+      <body className={cn(roboto.className, 'scroll-smooth antialiased')}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />
           <main className="mx-auto min-h-screen max-w-7xl py-32">
             {children}
           </main>
           <Footer />
+          <Analytics />
+          <AxeCore />
         </ThemeProvider>
       </body>
     </html>

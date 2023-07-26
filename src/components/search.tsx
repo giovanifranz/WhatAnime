@@ -25,11 +25,7 @@ import {
 type Props = HtmlHTMLAttributes<HTMLFormElement>
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(2)
-    .max(50)
-    .transform((value) => encodeURIComponent(value)),
+  title: z.string().min(2).max(50),
   select: z.enum(['word', 'upload']),
 })
 

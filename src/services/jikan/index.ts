@@ -5,9 +5,11 @@ const api = 'https://api.jikan.moe/v4'
 export const getAnimesByTitle = async (
   title: string,
 ): Promise<MultipleAnimes> => {
-  return fetch(`${api}/anime?q=${title}&sfw`).then((res) => {
-    return res.json()
-  })
+  return fetch(`${api}/anime?q=${encodeURIComponent(title)}&sfw`).then(
+    (res) => {
+      return res.json()
+    },
+  )
 }
 
 export const getAnimeRandom = async (): Promise<SingleAnime> => {
