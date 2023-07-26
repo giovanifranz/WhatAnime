@@ -7,7 +7,7 @@ import { animeStore } from '@/store/animeStore'
 
 import { MiniCard } from './mini-card'
 
-export function FetchedCards() {
+export default function FetchedCards() {
   const { othersTitles, getAnimeById } = animeStore((store) => ({
     othersTitles: store.othersTitles,
     getAnimeById: store.getAnimeById,

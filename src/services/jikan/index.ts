@@ -1,4 +1,4 @@
-import { MultipleAnimes, SingleAnime } from './type'
+import { Anime, MultipleAnimes, SingleAnime } from './type'
 
 const api = 'https://api.jikan.moe/v4'
 
@@ -24,16 +24,18 @@ export const getAnimeById = async (id: number): Promise<SingleAnime> => {
   })
 }
 
-export const getAnimesByAiring = async (): Promise<MultipleAnimes> => {
+export const getAnimesByAiring = async (): Promise<Anime[]> => {
   return fetch(`${api}/anime?order_by=score&status=airing&&sort=desc`).then(
-    (res) => {
-      return res.json()
+    async (res) => {
+      const { data }: MultipleAnimes = await res.json()
+      return data.slice(0, 5)
     },
   )
 }
 
-export const getAnimesByPopularity = async (): Promise<MultipleAnimes> => {
-  return fetch(`${api}/anime?order_by=popularity`).then((res) => {
-    return res.json()
+export const getAnimesByPopularity = async (): Promise<Anime[]> => {
+  return fetch(`${api}/anime?order_by=popularity`).then(async (res) => {
+    const { data }: MultipleAnimes = await res.json()
+    return data.slice(0, 10)
   })
 }

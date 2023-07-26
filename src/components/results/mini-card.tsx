@@ -1,6 +1,6 @@
 import { Anime } from '@/services/jikan/type'
 
-import { Card, CardFooter } from './ui/card'
+import { Card, CardFooter } from '../ui/card'
 
 type Props = Pick<Anime, 'title'> & {
   image: string

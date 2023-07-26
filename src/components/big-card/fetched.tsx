@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Suspense, useCallback } from 'react'
+import { useCallback } from 'react'
 
 import { animeStore } from '@/store/animeStore'
 
@@ -24,19 +24,19 @@ export default function Fetched() {
   if (!byTitle) return null
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Image
-        className="hidden w-48 rounded-l-lg border-r-2 md:block"
-        src={byTitle.images.webp.image_url || byTitle.images.jpg.image_url}
-        alt="Naruto"
-        width={400}
-        height={600}
-      />
+    <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
+      <div className="relative hidden w-56 rounded-l-lg border-r-2 md:block">
+        <Image
+          src={byTitle.images.webp.image_url || byTitle.images.jpg.image_url}
+          alt={byTitle.title}
+          fill
+        />
+      </div>
       <div className="w-full p-4">
         <CardContent className="flex flex-row-reverse items-start justify-between px-0 md:flex-row">
           <div className="hidden items-center justify-between gap-4 md:flex">
-            <CardHeader className="flex flex-col p-0">
-              <CardTitle className="text-lg">
+            <CardHeader className="flex w-80 flex-col p-0">
+              <CardTitle className="truncate text-lg">
                 {byTitle.title} {byTitle.year && <>({byTitle.year})</>}
               </CardTitle>
               <span>Episodes: {byTitle.episodes}</span>
@@ -66,6 +66,6 @@ export default function Fetched() {
           </div>
         )}
       </div>
-    </Suspense>
+    </article>
   )
 }

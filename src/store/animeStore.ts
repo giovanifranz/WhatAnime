@@ -2,33 +2,41 @@ import {
   getAnimeById,
   getAnimesByTitle,
   getAnimeRandom,
-  getAnimesByAiring,
-  getAnimesByPopularity,
 } from '@/services/jikan'
 import type { Anime } from '@/services/jikan/type'
 import { create } from 'zustand'
 
-type Store = {
+type Props = {
   byTitle: null | Anime
   byId: null | Anime
   othersTitles: null | Anime[]
   random: null | Anime
   byPopularity: null | Anime[]
   byAiring: null | Anime[]
+  animeQuote: null | Anime
+}
+
+interface Store extends Props {
   getAnimesByTitle: (title: string) => Promise<void>
   getAnimeRandom: () => Promise<void>
   getAnimeById: (id: number) => Promise<void>
-  getAnimesByAiring: () => Promise<void>
-  getAnimesByPopularity: () => Promise<void>
+  setAnimeById: (anime: Anime) => Promise<void>
 }
 
-export const animeStore = create<Store>((set) => ({
+const initialState = {
   byTitle: null,
   byId: null,
   othersTitles: null,
   random: null,
   byPopularity: null,
   byAiring: null,
+  animeQuote: null,
+}
+
+export type AnimeStore = ReturnType<typeof animeStore>
+
+export const animeStore = create<Store>((set) => ({
+  ...initialState,
   getAnimesByTitle: async (title: string) => {
     await getAnimesByTitle(title).then((res) => {
       if (!res.data) return
@@ -51,16 +59,7 @@ export const animeStore = create<Store>((set) => ({
       set((state) => ({ ...state, byId: res.data }))
     })
   },
-  getAnimesByAiring: async () => {
-    await getAnimesByAiring().then((res) => {
-      if (!res.data) return
-      set((state) => ({ ...state, byAiring: res.data.slice(0, 5) }))
-    })
-  },
-  getAnimesByPopularity: async () => {
-    await getAnimesByPopularity().then((res) => {
-      if (!res.data) return
-      set((state) => ({ ...state, byPopularity: res.data.slice(0, 10) }))
-    })
+  setAnimeById: async (anime: Anime) => {
+    set((state) => ({ ...state, byId: anime }))
   },
 }))

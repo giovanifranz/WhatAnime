@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 import { getAnimeRandom } from '@/services/jikan'
 
@@ -15,19 +14,19 @@ export default async function Today() {
   animeStore.setState({ random: data })
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Image
-        className="hidden w-48 rounded-l-lg border-r-2 md:block"
-        src={data.images.webp.image_url || data.images.jpg.image_url}
-        alt="Naruto"
-        width={400}
-        height={600}
-      />
+    <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
+      <div className="relative hidden w-56 rounded-l-lg border-r-2 md:block">
+        <Image
+          src={data.images.webp.image_url || data.images.jpg.image_url}
+          alt={data.title}
+          fill
+        />
+      </div>
       <div className="w-full p-4">
         <CardContent className="flex flex-row-reverse items-start justify-between px-0 md:flex-row">
           <div className="hidden items-center justify-between gap-4 md:flex">
-            <CardHeader className="flex flex-col p-0">
-              <CardTitle className="text-lg">
+            <CardHeader className="flex w-80 flex-col p-0">
+              <CardTitle className="truncate text-lg">
                 {data.title} {data.year && <>({data.year})</>}
               </CardTitle>
               <span>Episodes: {data.episodes}</span>
@@ -52,6 +51,6 @@ export default async function Today() {
           </div>
         )}
       </div>
-    </Suspense>
+    </article>
   )
 }
