@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 import { cn } from '@/lib/utils'
 
-import { useAnimeByNameStore } from '@/store/anime-by-name.store'
+import { animeStore } from '@/store/animeStore'
 
 import { Button } from './ui/button'
 import { FormField, FormItem, FormLabel, FormControl, Form } from './ui/form'
@@ -34,7 +34,7 @@ const formSchema = z.object({
 })
 
 export function Search({ className, ...rest }: Props) {
-  const { getAnimeByTitle } = useAnimeByNameStore()
+  const getAnimesByTitle = animeStore((store) => store.getAnimesByTitle)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +44,7 @@ export function Search({ className, ...rest }: Props) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    getAnimeByTitle(values.title)
+    getAnimesByTitle(values.title)
   }
 
   return (

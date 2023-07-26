@@ -1,6 +1,22 @@
-import { BigCard, MiniCard, Quote, Ranking, Search } from '@/components'
+import { Suspense } from 'react'
 
-export default function Home() {
+import { getAnimesByAiring, getAnimesByPopularity } from '@/services/jikan'
+
+import { BigCard, Quote, Ranking, Search, FetchedCards } from '@/components'
+
+import { animeStore } from '@/store/animeStore'
+
+export default async function Home() {
+  const [byAiring, byPopularity] = await Promise.all([
+    (await getAnimesByAiring()).data.slice(0, 5),
+    (await getAnimesByPopularity()).data.slice(0, 10),
+  ])
+
+  animeStore.setState({
+    byAiring,
+    byPopularity,
+  })
+
   return (
     <section className="grid grid-cols-1 gap-4 p-4 md:grid-cols-8">
       <Search className="md:col-span-6" />
@@ -11,13 +27,18 @@ export default function Home() {
       <BigCard.Root className="md:col-span-6">
         <BigCard.Today />
       </BigCard.Root>
-      <Ranking className="md:col-span-2">
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-      </Ranking>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Ranking.Root className="md:col-span-2" title="Top Airing">
+          {byAiring.map(({ mal_id, title }, index) => (
+            <Ranking.Item
+              key={mal_id}
+              mal_id={mal_id}
+              title={title}
+              index={index}
+            />
+          ))}
+        </Ranking.Root>
+      </Suspense>
       <h2 className="mt-4 scroll-m-20 text-3xl font-semibold uppercase tracking-tight md:col-span-8">
         Results
       </h2>
@@ -25,25 +46,18 @@ export default function Home() {
         <BigCard.Root>
           <BigCard.Fetched />
         </BigCard.Root>
-        <div className="mt-4 flex flex-wrap justify-between">
-          <MiniCard />
-          <MiniCard />
-          <MiniCard />
-          <MiniCard />
-        </div>
+        <FetchedCards />
       </div>
-      <Ranking className="md:col-span-2">
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-        <li>teste</li>
-      </Ranking>
+      <Ranking.Root className="md:col-span-2" title="Most Popular">
+        {byPopularity.map(({ mal_id, title }, index) => (
+          <Ranking.Item
+            key={mal_id}
+            mal_id={mal_id}
+            title={title}
+            index={index}
+          />
+        ))}
+      </Ranking.Root>
     </section>
   )
 }

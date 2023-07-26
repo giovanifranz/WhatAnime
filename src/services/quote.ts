@@ -5,6 +5,8 @@ type Quote = {
 }
 
 export const getRandomQuote = async (): Promise<Quote> => {
-  const res = await fetch('https://animechan.xyz/api/random')
+  const res = await fetch('https://animechan.xyz/api/random', {
+    next: { revalidate: 60 * 60 * 24 },
+  })
   return await res.json()
 }
