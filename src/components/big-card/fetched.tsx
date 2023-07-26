@@ -58,12 +58,12 @@ export default function Fetched() {
           </Button>
         </CardContent>
         {byTitle.synopsis && (
-          <div>
+          <>
             <h3 className="text-md font-semibold">Synopsis</h3>
             <CardDescription className="text-md line-clamp-5 text-neutral-50">
               {byTitle.synopsis}
             </CardDescription>
-          </div>
+          </>
         )}
       </div>
     </article>

@@ -43,12 +43,12 @@ export default async function Today() {
           </Button>
         </CardContent>
         {data.synopsis && (
-          <div>
+          <>
             <h3 className="text-md font-semibold">Synopsis</h3>
             <CardDescription className="text-md line-clamp-5 text-neutral-50">
               {data.synopsis}
             </CardDescription>
-          </div>
+          </>
         )}
       </div>
     </article>
