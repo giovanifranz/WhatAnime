@@ -1,8 +1,4 @@
-import { BigCard } from '@/components/big-card'
-import { MiniCard } from '@/components/mini-card'
-import { Quote } from '@/components/quote'
-import { Ranking } from '@/components/ranking'
-import { Search } from '@/components/search'
+import { BigCard, MiniCard, Quote, Ranking, Search } from '@/components'
 
 export default function Home() {
   return (
@@ -12,7 +8,9 @@ export default function Home() {
       <h2 className="scroll-m-20 text-3xl font-semibold uppercase tracking-tight md:col-span-8">
         Anime of the day
       </h2>
-      <BigCard className="md:col-span-6" />
+      <BigCard.Root className="md:col-span-6">
+        <BigCard.Today />
+      </BigCard.Root>
       <Ranking className="md:col-span-2">
         <li>teste</li>
         <li>teste</li>
@@ -24,7 +22,9 @@ export default function Home() {
         Results
       </h2>
       <div className="max-w-4xl md:col-span-6">
-        <BigCard />
+        <BigCard.Root>
+          <BigCard.Fetched />
+        </BigCard.Root>
         <div className="mt-4 flex flex-wrap justify-between">
           <MiniCard />
           <MiniCard />

@@ -1,36 +1,38 @@
 import { HtmlHTMLAttributes } from 'react'
+import { Suspense } from 'react'
 import { ImArrowRight2 } from 'react-icons/im'
 
-import clsx from 'clsx'
+import { getRandomQuote } from '@/services/quote'
+
+import { cn } from '@/lib/utils'
 
 import { Button } from './ui/button'
 
 type Props = HtmlHTMLAttributes<HTMLDivElement>
 
-export function Quote({ className, ...rest }: Props) {
+export async function Quote({ className, ...rest }: Props) {
+  const { anime, character, quote } = await getRandomQuote()
+
   return (
-    <div
-      className={clsx(
-        'rounded-lg bg-yellow-400 p-4 text-neutral-800',
-        className,
-      )}
-      {...rest}
-    >
-      <p className="mb-2 line-clamp-3">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book.
-      </p>
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col ">
-          <span className="font-bold">Elliot Nightray</span>
-          <span>Pandora Hearts</span>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div
+        className={cn(
+          'relative h-full min-h-[168px] rounded-lg bg-yellow-400 p-4 text-neutral-800',
+          className,
+        )}
+        {...rest}
+      >
+        <p className="mb-2 line-clamp-3">{quote}</p>
+
+        <div className="absolute bottom-4 left-4 flex w-[200px] flex-col">
+          <span className="truncate font-bold">{character}</span>
+          <span className="truncate">{anime}</span>
         </div>
-        <Button>
+
+        <Button className="absolute bottom-4 right-4">
           <ImArrowRight2 size={20} />
         </Button>
       </div>
-    </div>
+    </Suspense>
   )
 }
