@@ -1,6 +1,7 @@
 import { AnimeService } from '@/services/http'
 
 import { animeStore } from '@/store/animeStore'
+import { InitializerStore } from '@/store/initializerStore'
 
 import { Content } from './content'
 
@@ -10,5 +11,10 @@ export default async function Today() {
 
   if (!random) return null
 
-  return <Content {...random} />
+  return (
+    <>
+      <Content {...random} />
+      <InitializerStore random={random} />
+    </>
+  )
 }
