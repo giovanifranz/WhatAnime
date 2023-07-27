@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import animeService from '@/services/http/anime'
+import { AnimeService } from '@/services/http'
 
 import { animeStore } from '@/store/animeStore'
 
@@ -10,8 +10,10 @@ import { Button } from '../ui/button'
 import { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 export default async function Today() {
-  const random = await animeService.getAnimeRandom()
+  const random = await AnimeService.getAnimeRandom()
   animeStore.setState({ random })
+
+  if (!random) return null
 
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">

@@ -1,4 +1,4 @@
-import animeService from '@/services/http/anime'
+import { AnimeService } from '@/services/http'
 import type { Anime } from '@/services/http/anime/schema'
 import { create } from 'zustand'
 
@@ -34,7 +34,7 @@ export type AnimeStore = ReturnType<typeof animeStore>
 export const animeStore = create<Store>((set) => ({
   ...initialState,
   getAnimesByTitle: async (title: string) => {
-    await animeService.getAnimesByTitle(title).then((data) => {
+    await AnimeService.getAnimesByTitle(title).then((data) => {
       if (!data) return
       set((state) => ({
         ...state,
@@ -44,13 +44,13 @@ export const animeStore = create<Store>((set) => ({
     })
   },
   getAnimeRandom: async () => {
-    await animeService.getAnimeRandom().then((data) => {
+    await AnimeService.getAnimeRandom().then((data) => {
       if (!data) return
       set((state) => ({ ...state, random: data }))
     })
   },
   getAnimeById: async (id: number) => {
-    await animeService.getAnimeById(id).then((data) => {
+    await AnimeService.getAnimeById(id).then((data) => {
       if (!data) return
       set((state) => ({ ...state, byId: data }))
     })

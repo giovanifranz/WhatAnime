@@ -1,7 +1,6 @@
 import type { HtmlHTMLAttributes } from 'react'
 
-import animeService from '@/services/http/anime'
-import { getRandomQuote } from '@/services/quote'
+import { AnimeService, QuoteService } from '@/services/http'
 
 import { cn } from '@/lib/utils'
 
@@ -13,11 +12,14 @@ import Button from './button'
 type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export async function Quote({ className, ...rest }: Props) {
-  const { anime, character, quote } = await getRandomQuote()
+  const data = await QuoteService.getRandomQuote()
 
-  const animeQuote = await animeService
-    .getAnimesByTitle(anime)
-    .then((data) => data[0])
+  if (!data) return null
+
+  const animeQuote = await AnimeService.getAnimesByTitle(data.title).then(
+    (res) => res[0],
+  )
+
   animeStore.setState({ animeQuote })
 
   return (
@@ -28,11 +30,11 @@ export async function Quote({ className, ...rest }: Props) {
       )}
       {...rest}
     >
-      <p className="mb-2 line-clamp-3">{quote}</p>
+      <p className="mb-2 line-clamp-3">{data.quote}</p>
 
       <div className="absolute bottom-4 left-4 flex w-[200px] flex-col">
-        <span className="truncate font-bold">{character}</span>
-        <span className="truncate">{anime}</span>
+        <span className="truncate font-bold">{data.character}</span>
+        <span className="truncate">{data.title}</span>
       </div>
       <Button />
       <InitializerStore animeQuote={animeQuote} />

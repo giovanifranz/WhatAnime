@@ -1,6 +1,6 @@
 import type { HtmlHTMLAttributes } from 'react'
 
-import animeService from '@/services/http/anime'
+import { AnimeService } from '@/services/http'
 
 import { cn } from '@/lib/utils'
 
@@ -12,11 +12,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const rankingMap = {
   airing: {
-    getAnimes: animeService.getAnimesByAiring,
+    getAnimes: AnimeService.getAnimesByAiring,
     heading: 'Top Airing',
   },
   popular: {
-    getAnimes: animeService.getAnimesByPopularity,
+    getAnimes: AnimeService.getAnimesByPopularity,
     heading: 'Most Popular',
   },
 } as const
