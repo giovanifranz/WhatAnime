@@ -65,10 +65,15 @@ export type Aired = z.infer<typeof AiredSchema>
 export const AnimeSchema = z
   .object({
     mal_id: z.number(),
-    images: z.object({
-      jpg: z.union([z.null(), ImageSchema]).optional(),
-      webp: z.union([z.null(), ImageSchema]).optional(),
-    }),
+    images: z
+      .union([
+        z.null(),
+        z.object({
+          jpg: z.union([z.null(), ImageSchema]).optional(),
+          webp: z.union([z.null(), ImageSchema]).optional(),
+        }),
+      ])
+      .optional(),
     titles: z.union([z.array(TitleSchema), z.null()]).optional(),
     title: z.string(),
     title_english: z.union([z.null(), z.string()]).optional(),
@@ -94,8 +99,8 @@ export const AnimeSchema = z
   .transform((data) => ({
     id: data.mal_id,
     image:
-      data.images.webp?.image_url ||
-      data.images.jpg?.image_url ||
+      data.images?.webp?.image_url ||
+      data.images?.jpg?.image_url ||
       '/placeholder.png',
     title: data.title,
     episodes: data.episodes || null,

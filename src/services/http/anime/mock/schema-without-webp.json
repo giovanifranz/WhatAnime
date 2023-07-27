@@ -1,0 +1,137 @@
+{
+  "data": {
+    "mal_id": 1833,
+    "url": "https://myanimelist.net/anime/1833/Hyper-Psychic_Geo_Garaga",
+    "images": {
+      "jpg": {
+        "image_url": "https://cdn.myanimelist.net/images/anime/9/28323.jpg",
+        "small_image_url": "https://cdn.myanimelist.net/images/anime/9/28323t.jpg",
+        "large_image_url": "https://cdn.myanimelist.net/images/anime/9/28323l.jpg"
+      }
+    },
+    "trailer": {
+      "youtube_id": null,
+      "url": null,
+      "embed_url": null,
+      "images": {
+        "image_url": null,
+        "small_image_url": null,
+        "medium_image_url": null,
+        "large_image_url": null,
+        "maximum_image_url": null
+      }
+    },
+    "approved": true,
+    "titles": [
+      {
+        "type": "Default",
+        "title": "Hyper-Psychic Geo Garaga"
+      },
+      {
+        "type": "Japanese",
+        "title": "ギャラガ HYPER-PSYCHIC-GEO GARAGA"
+      },
+      {
+        "type": "English",
+        "title": "Garaga"
+      }
+    ],
+    "title": "Hyper-Psychic Geo Garaga",
+    "title_english": "Garaga",
+    "title_japanese": "ギャラガ HYPER-PSYCHIC-GEO GARAGA",
+    "title_synonyms": [],
+    "type": "Movie",
+    "source": "Manga",
+    "episodes": 1,
+    "status": "Finished Airing",
+    "airing": false,
+    "aired": {
+      "from": "1989-10-21T00:00:00+00:00",
+      "to": null,
+      "prop": {
+        "from": {
+          "day": 21,
+          "month": 10,
+          "year": 1989
+        },
+        "to": {
+          "day": null,
+          "month": null,
+          "year": null
+        }
+      },
+      "string": "Oct 21, 1989"
+    },
+    "duration": "1 hr 40 min",
+    "rating": "R - 17+ (violence & profanity)",
+    "score": 5.09,
+    "scored_by": 733,
+    "rank": 11937,
+    "popularity": 11051,
+    "members": 1805,
+    "favorites": 3,
+    "synopsis": "The year is 2755. As a result of a system malfunction, the cargo ship XeBeC goes off-course in a warp gate and ends up within the orbit of the distant planet Garaga. After crashing on Garaga's surface, the crew must find ways to survive from hideous monsters, rabid ape soldiers, and a race of mysterious psychics.\n\n(Source: ANN)",
+    "background": null,
+    "season": null,
+    "year": null,
+    "broadcast": {
+      "day": null,
+      "time": null,
+      "timezone": null,
+      "string": null
+    },
+    "producers": [
+      {
+        "mal_id": 517,
+        "type": "anime",
+        "name": "Asmik Ace",
+        "url": "https://myanimelist.net/anime/producer/517/Asmik_Ace"
+      }
+    ],
+    "licensors": [
+      {
+        "mal_id": 284,
+        "type": "anime",
+        "name": "Central Park Media",
+        "url": "https://myanimelist.net/anime/producer/284/Central_Park_Media"
+      }
+    ],
+    "studios": [
+      {
+        "mal_id": 971,
+        "type": "anime",
+        "name": "Anime R",
+        "url": "https://myanimelist.net/anime/producer/971/Anime_R"
+      },
+      {
+        "mal_id": 1009,
+        "type": "anime",
+        "name": "Aubec",
+        "url": "https://myanimelist.net/anime/producer/1009/Aubec"
+      }
+    ],
+    "genres": [
+      {
+        "mal_id": 1,
+        "type": "anime",
+        "name": "Action",
+        "url": "https://myanimelist.net/anime/genre/1/Action"
+      },
+      {
+        "mal_id": 2,
+        "type": "anime",
+        "name": "Adventure",
+        "url": "https://myanimelist.net/anime/genre/2/Adventure"
+      },
+      {
+        "mal_id": 24,
+        "type": "anime",
+        "name": "Sci-Fi",
+        "url": "https://myanimelist.net/anime/genre/24/Sci-Fi"
+      }
+    ],
+    "explicit_genres": [],
+    "themes": [],
+    "demographics": []
+  }
+}
