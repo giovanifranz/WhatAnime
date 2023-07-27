@@ -17,7 +17,7 @@ export default async function Today() {
 
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
-      <div className="relative hidden w-56 rounded-l-lg border-r-2 md:block">
+      <div className="relative w-56 rounded-l-lg border-r-2">
         <Image src={random.image} alt={random.title} fill />
       </div>
       <div className="w-full p-4">

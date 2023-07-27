@@ -19,7 +19,7 @@ export default function Item({ index, id, title }: Props) {
   }, [getAnimeById, id])
 
   return (
-    <li className="w-56 truncate" key={id}>
+    <li className="w-44 truncate lg:w-56 " key={id}>
       <Link
         href={`/anime/${id}`}
         onMouseOver={handleMouseOver}

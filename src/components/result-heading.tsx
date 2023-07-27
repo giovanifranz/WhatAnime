@@ -17,7 +17,7 @@ export function ResultHeading() {
   if (!showTitle) return <div className="h-10" />
 
   return (
-    <h2 className="col-span-8 h-10 text-3xl font-semibold uppercase tracking-tight">
+    <h2 className="col-span-2 h-10 text-2xl font-semibold uppercase tracking-tight md:col-span-8 md:text-3xl">
       Results
     </h2>
   )
