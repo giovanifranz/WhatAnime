@@ -6,9 +6,7 @@ import { Social } from './social'
 
 describe('Social', () => {
   it('Deve renderizar o Social corretamente', () => {
-    const { asFragment } = render(
-      <Social href={'/'} icon={RiLinkedinBoxFill} />,
-    )
+    const { asFragment } = render(<Social href={'/'} icon={RiLinkedinBoxFill} />)
     expect(asFragment()).toMatchSnapshot()
   })
 })

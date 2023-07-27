@@ -2,6 +2,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
 import service, { baseUrl } from './'
+import getAnimesByTitleMock from './mock/get-anime-by-title-response.json'
 import multipleAnimes from './mock/multiple.json'
 import randomAnime from './mock/random.json'
 import singleAnime from './mock/single.json'
@@ -68,29 +69,29 @@ describe('Anime Service', () => {
   describe(service.getAnimesByTitle.name, () => {
     it('Deve retornar animes por título', async () => {
       const response = await service.getAnimesByTitle('naruto')
-      expect(response.length).toBe(21)
+      expect(response).toEqual(getAnimesByTitleMock)
     })
 
-    it('Deve retornar array vazio em caso de valor invalido', async () => {
+    it('Deve retornar nulo em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
           return res(ctx.delay(300), ctx.json({ invalidData: true }))
         }),
       )
 
-      const animes = await service.getAnimesByTitle('naruto')
-      expect(animes.length).toBe(0)
+      const response = await service.getAnimesByTitle('naruto')
+      expect(response).toBeNull()
     })
 
-    it('Deve retornar array vazio em caso falha na request', async () => {
+    it('Deve retornar nulo em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
           return res(ctx.delay(300), ctx.status(500))
         }),
       )
 
-      const animes = await service.getAnimesByTitle('naruto')
-      expect(animes.length).toBe(0)
+      const response = await service.getAnimesByTitle('naruto')
+      expect(response).toBeNull()
     })
   })
 

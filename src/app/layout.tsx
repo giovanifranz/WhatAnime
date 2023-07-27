@@ -30,9 +30,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className={cn(roboto.className, 'scroll-smooth antialiased')}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />
-          <main className="mx-auto min-h-screen max-w-7xl py-32">
-            {children}
-          </main>
+          <main className="mx-auto min-h-screen max-w-7xl py-32">{children}</main>
           <Footer />
           <Analytics />
           <AxeCore />

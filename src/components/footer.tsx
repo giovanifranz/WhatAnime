@@ -35,38 +35,26 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <Separator
-          orientation="vertical"
-          className="my-auto h-72 bg-neutral-200"
-        />
+        <Separator orientation="vertical" className="my-auto h-72 bg-neutral-200" />
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <p className="max-w-xs">
-              This site is our baby, so please consider donating if you are able
-              so that we can keep working on it!
+              This site is our baby, so please consider donating if you are able so that
+              we can keep working on it!
             </p>
-            <Link
-              href="/"
-              className="rounded-full bg-neutral-100 p-2 text-neutral-800"
-            >
+            <Link href="/" className="rounded-full bg-neutral-100 p-2 text-neutral-800">
               <RiPaypalFill size={56} />
             </Link>
           </div>
           <span className="mt-4">LEGAL</span>
           <p>
-            All anime series names, images, and content are copyrighted content
-            of their respective license holders. I do not own the rights to any
-            of these anime series. Anime information compiled from AniList and
-            MyAnimeList.
+            All anime series names, images, and content are copyrighted content of their
+            respective license holders. I do not own the rights to any of these anime
+            series. Anime information compiled from AniList and MyAnimeList.
           </p>
           <span className="-mb-4 mt-4">DESIGNED BY</span>
           <Link href="https://www.highlandertech.com.br/">
-            <Image
-              src={Highlander}
-              alt="HighlanderTech"
-              width={257}
-              height={65}
-            />
+            <Image src={Highlander} alt="HighlanderTech" width={257} height={65} />
           </Link>
         </div>
       </div>

@@ -12,7 +12,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 export default function Fetched() {
   const { byTitle, getAnimeById } = animeStore((store) => ({
-    byTitle: store.byTitle,
+    byTitle: store.byTitle?.anime || null,
     getAnimeById: store.getAnimeById,
   }))
 

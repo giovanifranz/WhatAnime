@@ -9,3 +9,5 @@ export function cn(...inputs: ClassValue[]) {
 export const logger = pino({
   enabled: process.env.ENV_TYPE !== 'test',
 })
+
+export const ONE_DAY = 60 * 60 * 24

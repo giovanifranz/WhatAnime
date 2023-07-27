@@ -47,10 +47,7 @@ export function Search({ className, ...rest }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(
-          'flex flex-col gap-4 max-w-4xl justify-center',
-          className,
-        )}
+        className={cn('flex flex-col gap-4 max-w-4xl justify-center', className)}
         {...rest}
       >
         <FormField
@@ -62,10 +59,7 @@ export function Search({ className, ...rest }: Props) {
                 Search
               </FormLabel>
               <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <SelectTrigger className="w-24">
                     <SelectValue placeholder="Word" />
                   </SelectTrigger>

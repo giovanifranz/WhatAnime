@@ -16,11 +16,11 @@ export async function Quote({ className, ...rest }: Props) {
 
   if (!data) return null
 
-  const animeQuote = await AnimeService.getAnimesByTitle(data.title).then(
-    (res) => res[0],
-  )
-
-  animeStore.setState({ animeQuote })
+  const animeQuote = await AnimeService.getAnimesByTitle(data.title).then((result) => {
+    if (!result) return null
+    animeStore.setState({ animeQuote: result.anime })
+    return result.anime
+  })
 
   return (
     <div

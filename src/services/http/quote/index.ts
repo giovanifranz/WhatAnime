@@ -1,4 +1,4 @@
-import { logger } from '@/lib/utils'
+import { ONE_DAY, logger } from '@/lib/utils'
 
 import { Quote, QuoteResponse, QuoteSchema } from './schema'
 
@@ -9,7 +9,7 @@ class Service {
 
   getRandomQuote = async (): Promise<Quote | null> => {
     return fetch(`${this.api}/random`, {
-      next: { revalidate: 60 * 60 * 24 },
+      next: { revalidate: ONE_DAY },
     })
       .then(async (res) => {
         const data: QuoteResponse = await res.json()

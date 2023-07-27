@@ -13,7 +13,6 @@ describe('animeStore', () => {
     expect(store.byTitle).toBe(initialState.byTitle)
     expect(store.byAiring).toBe(initialState.byAiring)
     expect(store.byPopularity).toBe(initialState.byPopularity)
-    expect(store.othersTitles).toBe(initialState.othersTitles)
     expect(store.random).toBe(initialState.random)
   })
 })

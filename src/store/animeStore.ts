@@ -1,11 +1,10 @@
 import { AnimeService } from '@/services/http'
-import type { Anime } from '@/services/http/anime/schema'
+import type { Anime, AnimeByTitle } from '@/services/http/anime/schema'
 import { create } from 'zustand'
 
 type Props = {
-  byTitle: null | Anime
+  byTitle: null | AnimeByTitle
   byId: null | Anime
-  othersTitles: null | Anime[]
   random: null | Anime
   byPopularity: null | Anime[]
   byAiring: null | Anime[]
@@ -36,11 +35,7 @@ export const animeStore = create<Store>((set) => ({
   getAnimesByTitle: async (title: string) => {
     await AnimeService.getAnimesByTitle(title).then((data) => {
       if (!data) return
-      set((state) => ({
-        ...state,
-        byTitle: data[0],
-        othersTitles: data.slice(1, 5),
-      }))
+      set((state) => ({ ...state, byTitle: data }))
     })
   },
   getAnimeRandom: async () => {

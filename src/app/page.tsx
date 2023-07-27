@@ -1,13 +1,6 @@
 import { Suspense } from 'react'
 
-import {
-  BigCard,
-  Quote,
-  Ranking,
-  Search,
-  Results,
-  ResultHeading,
-} from '@/components'
+import { BigCard, Quote, Ranking, Search, Results, ResultHeading } from '@/components'
 
 export default async function Home() {
   return (

@@ -13,9 +13,7 @@ export function MiniCard({ image, title }: Props) {
       style={{ backgroundImage: `url(${image})` }}
     >
       <CardFooter className="absolute inset-x-0 bottom-0 flex justify-center rounded-b-lg bg-yellow-400 p-1 px-0">
-        <span className="truncate px-2 font-semibold text-neutral-800">
-          {title}
-        </span>
+        <span className="truncate px-2 font-semibold text-neutral-800">{title}</span>
       </CardFooter>
     </Card>
   )
