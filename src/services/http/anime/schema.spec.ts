@@ -1,4 +1,5 @@
-import schemaWithoutWebp from './mock/schema-without-webp.json'
+import schemaWithoutWebp from '@/mocks/handlers/anime/schema-without-webp.json'
+
 import { AnimeSchema } from './schema'
 
 describe('AnimeSchema', () => {

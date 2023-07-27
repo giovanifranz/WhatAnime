@@ -1,22 +1,10 @@
+import singleQuote from '@/mocks/handlers/quote/single-quote.json'
+import { server } from '@/mocks/server'
 import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 
 import service, { baseUrl } from './'
-import singleQuote from './mock/single-quote.json'
-
-export const handlers = [
-  rest.get(`${baseUrl}/random`, (_, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(singleQuote))
-  }),
-]
-
-const server = setupServer(...handlers)
 
 describe('Quote Service', () => {
-  afterAll(() => server.close())
-  beforeAll(() => server.listen())
-  afterEach(() => server.resetHandlers())
-
   describe(service.getRandomQuote.name, () => {
     it('Deve uma quote corretamente', async () => {
       const response = await service.getRandomQuote()

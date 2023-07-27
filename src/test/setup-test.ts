@@ -1,7 +1,9 @@
+import { server } from '@/mocks/server'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
-import { expect, afterEach } from 'vitest'
 import { vi } from 'vitest'
+
+process.env.NEXT_PUBLIC_API_MOCKING = 'enabled'
 
 expect.extend(matchers)
 
@@ -20,11 +22,13 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 beforeAll(() => {
+  server.listen()
   vi.mock('next/router', () => import('next-router-mock'))
 })
 
 afterEach(() => {
+  server.resetHandlers()
   cleanup()
 })
 
-process.env.ENV_TYPE = 'test'
+afterAll(() => server.close())

@@ -3,12 +3,7 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import type { PropsWithChildren } from 'react'
 
-import { Analytics } from '@vercel/analytics/react'
-
-import { AxeCore } from '@/components'
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
-import { ThemeProvider } from '@/components/theme-provider'
+import { Footer, Header, Provider } from '@/components'
 
 import { cn } from '@/lib/utils'
 
@@ -28,13 +23,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={cn(roboto.className, 'scroll-smooth antialiased')}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <Provider>
           <Header />
           <main className="mx-auto min-h-screen max-w-7xl py-32">{children}</main>
           <Footer />
-          <Analytics />
-          <AxeCore />
-        </ThemeProvider>
+        </Provider>
       </body>
     </html>
   )

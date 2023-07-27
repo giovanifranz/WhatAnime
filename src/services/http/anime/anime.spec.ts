@@ -1,35 +1,12 @@
+import getAnimesByTitleMock from '@/mocks/handlers/anime/get-anime-by-title-response.json'
+import randomAnime from '@/mocks/handlers/anime/random.json'
+import singleAnime from '@/mocks/handlers/anime/single.json'
+import { server } from '@/mocks/server'
 import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 
 import service, { baseUrl } from './'
-import getAnimesByTitleMock from './mock/get-anime-by-title-response.json'
-import multipleAnimes from './mock/multiple.json'
-import randomAnime from './mock/random.json'
-import singleAnime from './mock/single.json'
-
-export const handlers = [
-  rest.get(`${baseUrl}/anime/:id`, (_, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(singleAnime))
-  }),
-
-  rest.get(`${baseUrl}/random/anime`, (_, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(randomAnime))
-  }),
-
-  rest.get(`${baseUrl}/anime`, (req, res, ctx) => {
-    if (req.url.searchParams.get('q')) {
-      return res(ctx.delay(300), ctx.status(200), ctx.json(multipleAnimes))
-    }
-  }),
-]
-
-const server = setupServer(...handlers)
 
 describe('Anime Service', () => {
-  afterAll(() => server.close())
-  beforeAll(() => server.listen())
-  afterEach(() => server.resetHandlers())
-
   describe(service.getAnimeById.name, () => {
     it('Deve retornar anime por ID', async () => {
       const response = await service.getAnimeById(21)
