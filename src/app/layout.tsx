@@ -5,7 +5,7 @@ import type { PropsWithChildren } from 'react'
 
 import { Footer, Header, Provider } from '@/components'
 
-import { cn } from '@/lib/utils'
+import { cn, isMockEnabled } from '@/lib/utils'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: 'WhatAnime',
   description:
     'Immerse Yourself in the Enchanting World of Anime! Discover the Latest Releases, Timeless Classics, and More. Ignite Your Passion for Japanese Animation at WhatAnime. Start Exploring Now!',
+}
+
+if (isMockEnabled()) {
+  require('@/mocks')
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {

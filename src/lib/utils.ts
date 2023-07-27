@@ -11,3 +11,11 @@ export const logger = pino({
 })
 
 export const ONE_DAY = 60 * 60 * 24
+
+export function isDevEnvironment() {
+  return process.env.NODE_ENV === 'development'
+}
+
+export function isMockEnabled() {
+  return process.env.NEXT_PUBLIC_API_MOCKING === 'enabled'
+}
