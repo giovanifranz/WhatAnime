@@ -25,7 +25,7 @@ export default async function Home() {
 
       <ResultHeading />
 
-      <Results className="col-span-2  col-start-1 h-fit md:col-span-6 xl:h-[528px]" />
+      <Results className="col-span-2 col-start-1 h-fit md:col-span-6 md:h-[528px]" />
 
       <Suspense fallback={<div>Loading...</div>}>
         <Ranking className="col-span-2 col-start-7" type="popular" />
