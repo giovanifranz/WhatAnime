@@ -8,10 +8,4 @@ export function cn(...inputs: ClassValue[]) {
 
 export const logger = pino({
   enabled: process.env.ENV_TYPE !== 'test',
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-    },
-  },
 })
