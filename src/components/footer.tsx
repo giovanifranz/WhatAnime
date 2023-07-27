@@ -1,11 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  RiInstagramFill,
-  RiFacebookFill,
-  RiTwitterFill,
-  RiPaypalFill,
-} from 'react-icons/ri'
+import { RiFacebookFill, RiTwitterFill, RiPaypalFill } from 'react-icons/ri'
 import { SiAnilist, SiMyanimelist } from 'react-icons/si'
 
 import Highlander from '@/assets/highlander.svg'
@@ -17,32 +12,50 @@ import { Separator } from './ui/separator'
 export function Footer() {
   return (
     <footer className="bg-neutral-800">
-      <div className="mx-auto flex max-w-7xl gap-4 p-4">
-        <div className="w-2/5">
+      <div className="mx-auto flex flex-col gap-4 p-4 md:max-w-7xl md:flex-row">
+        <div className="w-full md:w-2/5">
           <Logo />
           <div className="mt-8 flex flex-col gap-2">
             <span>CONNECT</span>
             <div className="flex gap-4">
-              <Social href="/" icon={SiMyanimelist} />
-              <Social href="/" icon={SiAnilist} />
+              <Social
+                href="https://myanimelist.net/profile/HighlanderTech"
+                icon={SiMyanimelist}
+              />
+              <Social href="https://anilist.co/user/giovanifranz/" icon={SiAnilist} />
             </div>
 
             <span>SHARE</span>
             <div className="flex gap-4">
-              <Social href="/" icon={RiFacebookFill} />
-              <Social href="/" icon={RiInstagramFill} />
-              <Social href="/" icon={RiTwitterFill} />
+              <Social
+                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.whatanime.com.br"
+                icon={RiFacebookFill}
+              />
+              <Social
+                href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.whatanime.com.br"
+                icon={RiTwitterFill}
+              />
             </div>
           </div>
         </div>
-        <Separator orientation="vertical" className="my-auto h-72 bg-neutral-200" />
+        <Separator
+          orientation="vertical"
+          className="my-auto hidden h-72 bg-neutral-200 md:flex"
+        />
+        <Separator
+          orientation="horizontal"
+          className="mx-auto my-4 bg-neutral-200 md:hidden"
+        />
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <p className="max-w-xs">
               This site is our baby, so please consider donating if you are able so that
               we can keep working on it!
             </p>
-            <Link href="/" className="rounded-full bg-neutral-100 p-2 text-neutral-800">
+            <Link
+              href="https://www.paypal.com/donate/?hosted_button_id=KJ9TK628E7N42"
+              className="rounded-full bg-neutral-100 p-2 text-neutral-800"
+            >
               <RiPaypalFill size={56} />
             </Link>
           </div>

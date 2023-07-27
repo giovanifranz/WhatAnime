@@ -11,7 +11,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export function Results({ className, ...rest }: Props) {
   return (
-    <div className={cn('h-[512px] max-w-4xl', className)} {...rest}>
+    <div className={cn('max-w-4xl', className)} {...rest}>
       <BigCard.Root>
         <BigCard.Fetched />
       </BigCard.Root>

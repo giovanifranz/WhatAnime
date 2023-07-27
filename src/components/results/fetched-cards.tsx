@@ -31,7 +31,7 @@ export default function FetchedCards() {
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap justify-between ">
+      <div className="mt-4 flex flex-wrap justify-between gap-2">
         {othersAnimes[pagination].animes.map(({ id, image, title }) => (
           <Link
             href={`/anime/${id}`}

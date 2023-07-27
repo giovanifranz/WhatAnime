@@ -9,7 +9,7 @@ type Props = Pick<Anime, 'title'> & {
 export function MiniCard({ image, title }: Props) {
   return (
     <Card
-      className={'relative h-60 w-48 bg-neutral-600 bg-cover'}
+      className={'relative  h-64 w-44 bg-neutral-600 bg-cover'}
       style={{ backgroundImage: `url(${image})` }}
     >
       <CardFooter className="absolute inset-x-0 bottom-0 flex justify-center rounded-b-lg bg-yellow-400 p-1 px-0">

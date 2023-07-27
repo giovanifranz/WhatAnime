@@ -2,6 +2,7 @@
 
 import type { HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
+import { FiSearch } from 'react-icons/fi'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -54,23 +55,26 @@ export function Search({ className, ...rest }: Props) {
           control={form.control}
           name="select"
           render={({ field }) => (
-            <FormItem className="flex items-center gap-4">
-              <FormLabel className="scroll-m-20 text-3xl font-semibold uppercase tracking-tight">
-                Search
-              </FormLabel>
-              <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <SelectTrigger className="w-24">
-                    <SelectValue placeholder="Word" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="word">Word</SelectItem>
-                      <SelectItem value="upload">Upload</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+            <FormItem>
+              <div className="flex h-12 items-center gap-4">
+                <FormLabel className="scroll-m-20 text-2xl font-semibold uppercase tracking-tight md:text-3xl">
+                  Search
+                </FormLabel>
+
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger className="w-24">
+                      <SelectValue placeholder="Word" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="word">Word</SelectItem>
+                        <SelectItem value="upload">Upload</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+              </div>
             </FormItem>
           )}
         />
@@ -90,7 +94,9 @@ export function Search({ className, ...rest }: Props) {
               </FormItem>
             )}
           />
-          <Button type="submit">Search</Button>
+          <Button type="submit">
+            <FiSearch size={20} />
+          </Button>
         </div>
       </form>
     </Form>
