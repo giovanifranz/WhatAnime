@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { AnimeService } from '@/services/http'
 
 import { animeStore } from '@/store/animeStore'
+import { InitializerStore } from '@/store/initializerStore'
 
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
@@ -49,6 +50,7 @@ export default async function Today() {
           </>
         )}
       </div>
+      <InitializerStore random={random} />
     </article>
   )
 }

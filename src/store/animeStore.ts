@@ -1,6 +1,7 @@
 import { AnimeService } from '@/services/http'
 import type { Anime, AnimeByTitle } from '@/services/http/anime/schema'
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 type Props = {
   byTitle: null | AnimeByTitle
@@ -30,27 +31,34 @@ export const initialState = {
 
 export type AnimeStore = ReturnType<typeof animeStore>
 
-export const animeStore = create<Store>((set) => ({
-  ...initialState,
-  getAnimesByTitle: async (title: string) => {
-    await AnimeService.getAnimesByTitle(title).then((data) => {
-      if (!data) return
-      set((state) => ({ ...state, byTitle: data }))
-    })
-  },
-  getAnimeRandom: async () => {
-    await AnimeService.getAnimeRandom().then((data) => {
-      if (!data) return
-      set((state) => ({ ...state, random: data }))
-    })
-  },
-  getAnimeById: async (id: number) => {
-    await AnimeService.getAnimeById(id).then((data) => {
-      if (!data) return
-      set((state) => ({ ...state, byId: data }))
-    })
-  },
-  setAnimeById: async (anime: Anime) => {
-    set((state) => ({ ...state, byId: anime }))
-  },
-}))
+export const animeStore = create(
+  persist<Store>(
+    (set) => ({
+      ...initialState,
+      getAnimesByTitle: async (title: string) => {
+        await AnimeService.getAnimesByTitle(title).then((data) => {
+          if (!data) return
+          set((state) => ({ ...state, byTitle: data }))
+        })
+      },
+      getAnimeRandom: async () => {
+        await AnimeService.getAnimeRandom().then((data) => {
+          if (!data) return
+          set((state) => ({ ...state, random: data }))
+        })
+      },
+      getAnimeById: async (id: number) => {
+        await AnimeService.getAnimeById(id).then((data) => {
+          if (!data) return
+          set((state) => ({ ...state, byId: data }))
+        })
+      },
+      setAnimeById: async (anime: Anime) => {
+        set((state) => ({ ...state, byId: anime }))
+      },
+    }),
+    {
+      name: '@WhatAnime-store',
+    },
+  ),
+)
