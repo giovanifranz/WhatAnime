@@ -33,7 +33,7 @@ export type AnimeStore = ReturnType<typeof animeStore>
 
 export const animeStore = create(
   persist<Store>(
-    (set) => ({
+    (set, get) => ({
       ...initialState,
       getAnimesByTitle: async (title: string) => {
         await AnimeService.getAnimesByTitle(title).then((data) => {
@@ -48,8 +48,12 @@ export const animeStore = create(
         })
       },
       getAnimeById: async (id: number) => {
+        const { byId } = get()
+        if (byId?.id === id) return
+
         await AnimeService.getAnimeById(id).then((data) => {
           if (!data) return
+
           set((state) => ({ ...state, byId: data }))
         })
       },
