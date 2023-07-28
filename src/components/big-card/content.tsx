@@ -1,12 +1,8 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, memo } from 'react'
+import { memo } from 'react'
 
 import type { Anime } from '@/services/http/anime/schema'
-
-import { animeStore } from '@/store/animeStore'
 
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
@@ -14,13 +10,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 type Props = Anime
 
-function Component({ id, title, image, year, episodes, score, synopsis }: Props) {
-  const getAnimeById = animeStore((store) => store.getAnimeById)
-
-  const handleMouseEnter = useCallback(async () => {
-    await getAnimeById(id)
-  }, [getAnimeById, id])
-
+function Component({ id, title, image, episodes, score, synopsis }: Props) {
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
       <div className="relative w-56 rounded-l-lg border-r-2">
@@ -30,9 +20,7 @@ function Component({ id, title, image, year, episodes, score, synopsis }: Props)
         <CardContent className="flex flex-row-reverse items-start justify-between px-0 md:flex-row">
           <div className="hidden items-center justify-between gap-4 md:flex">
             <CardHeader className="flex w-80 flex-col p-0">
-              <CardTitle className="truncate text-lg">
-                {title} {year && <>({year})</>}
-              </CardTitle>
+              <CardTitle className="truncate text-lg">{title}</CardTitle>
               <span>Episodes: {episodes}</span>
             </CardHeader>
             {score && (
@@ -43,9 +31,7 @@ function Component({ id, title, image, year, episodes, score, synopsis }: Props)
             )}
           </div>
           <Button asChild>
-            <Link href={`/anime/${id}`} onMouseEnter={handleMouseEnter}>
-              Go to Page
-            </Link>
+            <Link href={`/anime/${id}`}>Go to Page</Link>
           </Button>
         </CardContent>
         {synopsis && (

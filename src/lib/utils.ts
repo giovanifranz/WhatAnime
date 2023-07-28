@@ -19,3 +19,8 @@ export function isDevEnvironment() {
 export function isMockEnabled() {
   return process.env.NEXT_PUBLIC_API_MOCKING === 'enabled'
 }
+
+export function processAndConvertToLowerCase(str: string) {
+  const processedString = str.replace(/[^\w\s]/gi, '')
+  return processedString.toLowerCase()
+}

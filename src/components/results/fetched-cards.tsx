@@ -11,17 +11,7 @@ import { MiniCard } from './mini-card'
 export default function FetchedCards() {
   const [pagination, setPagination] = useState(0)
 
-  const { othersAnimes, getAnimeById } = animeStore((store) => ({
-    othersAnimes: store.byTitle?.othersAnimes || [],
-    getAnimeById: store.getAnimeById,
-  }))
-
-  const handleMouseEnter = useCallback(
-    async (id: number) => {
-      await getAnimeById(id)
-    },
-    [getAnimeById],
-  )
+  const othersAnimes = animeStore((store) => store.byTitle?.othersAnimes || [])
 
   const handleClick = useCallback((page: number) => {
     setPagination(page)
@@ -37,7 +27,6 @@ export default function FetchedCards() {
             href={`/anime/${id}`}
             key={id}
             className="transition-all hover:opacity-80"
-            onMouseEnter={() => handleMouseEnter(id)}
           >
             <MiniCard image={image} title={title} />
           </Link>

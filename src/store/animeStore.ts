@@ -3,6 +3,8 @@ import type { Anime, AnimeByTitle } from '@/services/http/anime/schema'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { processAndConvertToLowerCase } from '@/lib/utils'
+
 type Props = {
   byTitle: null | AnimeByTitle
   byId: null | Anime
@@ -16,7 +18,6 @@ interface Store extends Props {
   getAnimesByTitle: (title: string) => Promise<void>
   getAnimeRandom: () => Promise<void>
   getAnimeById: (id: number) => Promise<void>
-  setAnimeById: (anime: Anime) => Promise<void>
 }
 
 export const initialState = {
@@ -36,6 +37,27 @@ export const animeStore = create(
     (set, get) => ({
       ...initialState,
       getAnimesByTitle: async (title: string) => {
+        if (title.length < 3) return
+
+        const { byTitle } = get()
+        if (byTitle?.anime) {
+          const titles: string[] = [byTitle.anime.title]
+
+          byTitle.othersAnimes.forEach((others, index) => {
+            if (others.animes[index]) {
+              titles.push(others.animes[index].title)
+            }
+          })
+
+          const exists = titles.find((value) => {
+            const storedTitle = processAndConvertToLowerCase(value)
+            const titleToCompare = processAndConvertToLowerCase(title)
+            return storedTitle.includes(titleToCompare)
+          })
+
+          if (exists) return
+        }
+
         await AnimeService.getAnimesByTitle(title).then((data) => {
           if (!data) return
           set((state) => ({ ...state, byTitle: data }))
@@ -56,9 +78,6 @@ export const animeStore = create(
 
           set((state) => ({ ...state, byId: data }))
         })
-      },
-      setAnimeById: async (anime: Anime) => {
-        set((state) => ({ ...state, byId: anime }))
       },
     }),
     {
