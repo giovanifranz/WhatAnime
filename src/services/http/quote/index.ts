@@ -13,7 +13,7 @@ class Service {
     })
       .then(async (res) => {
         const data: QuoteResponse = await res.json()
-        const validate = QuoteSchema.safeParse(data)
+        const validate = await QuoteSchema.safeParseAsync(data)
 
         if (!validate.success) {
           logger.error(validate.error)

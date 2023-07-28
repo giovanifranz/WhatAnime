@@ -1,5 +1,4 @@
 'use client'
-
 import type { HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiSearch } from 'react-icons/fi'
@@ -40,7 +39,7 @@ export function Search({ className, ...rest }: Props) {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     getAnimesByTitle(values.title)
   }
 

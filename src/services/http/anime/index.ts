@@ -74,7 +74,7 @@ class Service {
     return fetch(`${this.api}/anime/${id}`)
       .then(async (res) => {
         const { data }: SingleResponse = await res.json()
-        const validate = AnimeSchema.safeParse(data)
+        const validate = await AnimeSchema.safeParseAsync(data)
 
         if (!validate.success) {
           logger.error(validate.error)
@@ -95,7 +95,7 @@ class Service {
     })
       .then(async (res) => {
         const { data }: SingleResponse = await res.json()
-        const validate = AnimeSchema.safeParse(data)
+        const validate = await AnimeSchema.safeParseAsync(data)
 
         if (!validate.success) {
           logger.error(validate.error)

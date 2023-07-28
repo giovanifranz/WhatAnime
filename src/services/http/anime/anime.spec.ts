@@ -46,7 +46,7 @@ describe('Teste de Integração - Anime Service', () => {
   describe(service.getAnimesByTitle.name, () => {
     it('Deve retornar animes por título', async () => {
       const response = await service.getAnimesByTitle('naruto')
-      expect(response).toEqual(getAnimesByTitleMock)
+      expect(response).toStrictEqual(getAnimesByTitleMock)
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -76,12 +76,12 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar anime aleatório', async () => {
       const response = await service.getAnimeRandom()
 
-      expect(response!.id).toBe(randomAnime.data.mal_id)
-      expect(response!.image).toBe(randomAnime.data.images.webp.image_url)
-      expect(response!.title).toBe(randomAnime.data.title)
-      expect(response!.episodes).toBe(randomAnime.data.episodes)
-      expect(response!.synopsis).toBe(randomAnime.data.synopsis)
-      expect(response!.year).toBe(randomAnime.data.year)
+      expect(response!.id).toEqual(randomAnime.data.mal_id)
+      expect(response!.image).toEqual(randomAnime.data.images.webp.image_url)
+      expect(response!.title).toEqual(randomAnime.data.title)
+      expect(response!.episodes).toEqual(randomAnime.data.episodes)
+      expect(response!.synopsis).toEqual(randomAnime.data.synopsis)
+      expect(response!.year).toEqual(randomAnime.data.year)
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -122,7 +122,7 @@ describe('Teste de Integração - Anime Service', () => {
       )
 
       const animes = await service.getAnimesByAiring()
-      expect(animes.length).toBe(0)
+      expect(animes.length).toEqual(0)
     })
 
     it('Deve retornar array vazio de animes em exibição em caso falha na request', async () => {
@@ -133,7 +133,7 @@ describe('Teste de Integração - Anime Service', () => {
       )
 
       const animes = await service.getAnimesByAiring()
-      expect(animes.length).toBe(0)
+      expect(animes.length).toEqual(0)
     })
   })
 
@@ -141,7 +141,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar ranking de animes por popularidade', async () => {
       const response = await service.getAnimesByPopularity()
 
-      expect(response.length).toBe(10)
+      expect(response.length).toEqual(10)
     })
 
     it('Deve retornar array vazio de animes por popularidade em caso de valor invalido', async () => {
@@ -152,7 +152,7 @@ describe('Teste de Integração - Anime Service', () => {
       )
 
       const animes = await service.getAnimesByPopularity()
-      expect(animes.length).toBe(0)
+      expect(animes.length).toEqual(0)
     })
 
     it('Deve retornar array vazio de animes por popularidade em caso falha na request', async () => {
@@ -163,7 +163,7 @@ describe('Teste de Integração - Anime Service', () => {
       )
 
       const animes = await service.getAnimesByPopularity()
-      expect(animes.length).toBe(0)
+      expect(animes.length).toEqual(0)
     })
   })
 })

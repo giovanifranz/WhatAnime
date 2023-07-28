@@ -5,6 +5,8 @@ import { persist } from 'zustand/middleware'
 
 import { processAndConvertToLowerCase } from '@/lib/utils'
 
+import { ByTitleSchema } from './schema'
+
 type Props = {
   byTitle: null | AnimeByTitle
   byId: null | Anime
@@ -57,10 +59,15 @@ export const animeStore = create(
           if (exists) return
         }
 
-        await AnimeService.getAnimesByTitle(title).then((data) => {
-          if (!data) return
-          set((state) => ({ ...state, byTitle: data }))
-        })
+        const result = await fetch(`/api/anime?title=${title}`)
+        if (!result.ok) return
+
+        const { data } = await result.json()
+        const parsedData = await ByTitleSchema.safeParseAsync(data)
+
+        if (!parsedData.success) return
+
+        set((state) => ({ ...state, byTitle: parsedData.data }))
       },
       getAnimeRandom: async () => {
         await AnimeService.getAnimeRandom().then((data) => {

@@ -41,7 +41,7 @@ describe('Teste Unitário - animeStore', () => {
       const { byId } = animeStore.getState()
 
       expect(AnimeService.getAnimeById).toHaveBeenCalledTimes(1)
-      expect(byId).toBe(narutoMock)
+      expect(byId).toStrictEqual(narutoMock)
     })
 
     it('Deve atualizar caso anime da store possua outro id', async () => {
@@ -55,7 +55,7 @@ describe('Teste Unitário - animeStore', () => {
 
       const { byId } = animeStore.getState()
       expect(AnimeService.getAnimeById).toHaveBeenCalledTimes(1)
-      expect(byId).toBe(bleachMock)
+      expect(byId).toStrictEqual(bleachMock)
     })
 
     it('Deve retornar nulo em caso de response invalido', async () => {
@@ -77,7 +77,7 @@ describe('Teste Unitário - animeStore', () => {
       await getAnimeById(21)
 
       expect(AnimeService.getAnimeById).not.toHaveBeenCalled()
-      expect(byId).toBe(narutoMock)
+      expect(byId).toStrictEqual(narutoMock)
     })
   })
 
@@ -92,7 +92,7 @@ describe('Teste Unitário - animeStore', () => {
       const { random } = animeStore.getState()
 
       expect(AnimeService.getAnimeRandom).toHaveBeenCalledTimes(1)
-      expect(random).toBe(narutoMock)
+      expect(random).toStrictEqual(narutoMock)
     })
 
     it('Deve atualizar mesmo que já exista um random na store', async () => {
@@ -106,7 +106,7 @@ describe('Teste Unitário - animeStore', () => {
 
       const { random } = animeStore.getState()
       expect(AnimeService.getAnimeRandom).toHaveBeenCalledTimes(1)
-      expect(random).toBe(bleachMock)
+      expect(random).toStrictEqual(bleachMock)
     })
 
     it('Deve retornar nulo em caso de response invalido', async () => {
@@ -125,20 +125,14 @@ describe('Teste Unitário - animeStore', () => {
 
   describe('getAnimesByTitle', () => {
     it('Deve atualizar a store', async () => {
-      vi.spyOn(AnimeService, 'getAnimesByTitle').mockImplementationOnce(
-        async () => getAnimesByTitleMock,
-      )
-      const { getAnimesByTitle } = animeStore.getState()
-      await getAnimesByTitle(getAnimesByTitleMock.anime.title)
-
-      const { byTitle } = animeStore.getState()
-
-      expect(AnimeService.getAnimesByTitle).toHaveBeenCalledTimes(1)
-      expect(byTitle).toBe(getAnimesByTitleMock)
-    })
-
-    it('Deve retornar nulo em caso de response invalido', async () => {
-      vi.spyOn(AnimeService, 'getAnimesByTitle').mockImplementationOnce(async () => null)
+      global.fetch = vi.fn().mockImplementationOnce(async () => {
+        return {
+          ok: true,
+          json: async () => {
+            return { data: getAnimesByTitleMock }
+          },
+        }
+      })
 
       const { getAnimesByTitle } = animeStore.getState()
 
@@ -146,7 +140,24 @@ describe('Teste Unitário - animeStore', () => {
 
       const { byTitle } = animeStore.getState()
 
-      expect(AnimeService.getAnimesByTitle).toHaveBeenCalledTimes(1)
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+      expect(byTitle).toStrictEqual(getAnimesByTitleMock)
+    })
+
+    it('Deve retornar nulo em caso de response invalido', async () => {
+      global.fetch = vi.fn().mockImplementationOnce(async () => {
+        return {
+          ok: false,
+        }
+      })
+
+      const { getAnimesByTitle } = animeStore.getState()
+
+      await getAnimesByTitle('naruto')
+
+      const { byTitle } = animeStore.getState()
+
+      expect(global.fetch).toHaveBeenCalledTimes(1)
       expect(byTitle).toBeNull()
     })
 
@@ -155,8 +166,8 @@ describe('Teste Unitário - animeStore', () => {
       const { byTitle, getAnimesByTitle } = animeStore.getState()
       await getAnimesByTitle('naruto')
 
-      expect(AnimeService.getAnimesByTitle).not.toHaveBeenCalled()
-      expect(byTitle).toBe(getAnimesByTitleMock)
+      expect(global.fetch).not.toHaveBeenCalled()
+      expect(byTitle).toStrictEqual(getAnimesByTitleMock)
     })
   })
 })

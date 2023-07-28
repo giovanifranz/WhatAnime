@@ -22,7 +22,7 @@ describe('Teste Unitário - AnimeSchema', () => {
     expect(validate.success).toBe(true)
 
     if (validate.success) {
-      expect(validate.data.image).toBe('/placeholder.png')
+      expect(validate.data.image).toEqual('/placeholder.png')
     }
   })
 })
