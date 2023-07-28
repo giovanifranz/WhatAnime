@@ -1,4 +1,4 @@
-import getAnimesByTitleMock from '@/mocks/setup-msw/handlers/anime/get-anime-by-title-response.json'
+import { getAnimesByTitleMock } from '@/mocks'
 import randomAnime from '@/mocks/setup-msw/handlers/anime/random.json'
 import singleAnime from '@/mocks/setup-msw/handlers/anime/single.json'
 import { server } from '@/mocks/setup-msw/server'
