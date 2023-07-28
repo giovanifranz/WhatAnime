@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
+import { remove as removeDiacritics } from 'diacritics'
 import pino from 'pino'
 import { twMerge } from 'tailwind-merge'
 
@@ -21,8 +22,9 @@ export function isMockEnabled() {
 }
 
 export function processAndConvertToLowerCase(str: string) {
-  return str
-    .trim()
-    .replace(/[^\w\s]/gi, '')
+  return removeDiacritics(str)
     .toLowerCase()
+    .replace(/[!,@#$%^&*()_+]/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
 }
