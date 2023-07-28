@@ -14,7 +14,7 @@ export default function QuoteButton() {
 
   return (
     <Button asChild className="absolute bottom-4 right-4">
-      <Link href={`/anime/${id}`}>
+      <Link href={`/anime/${id}`} prefetch={false}>
         <ImArrowRight2 size={20} />
       </Link>
     </Button>

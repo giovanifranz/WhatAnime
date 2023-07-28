@@ -26,6 +26,7 @@ export default function FetchedCards() {
           <Link
             href={`/anime/${id}`}
             key={id}
+            prefetch={false}
             className="transition-all hover:opacity-80"
           >
             <MiniCard image={image} title={title} />

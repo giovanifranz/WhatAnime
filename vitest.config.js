@@ -13,6 +13,9 @@ export default defineConfig({
     setupFiles: ['src/test/setup-test.ts'],
     coverage: {
       provider: 'v8',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/mocks', 'src/test', 'src/components/ui'],
+      all: true,
     },
     clearMocks: true,
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],

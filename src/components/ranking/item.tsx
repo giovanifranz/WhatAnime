@@ -12,6 +12,7 @@ export default function Item({ index, id, title }: Props) {
       <Link
         href={`/anime/${id}`}
         className="transition-all hover:underline hover:opacity-80"
+        prefetch={false}
       >
         {index + 1}. {title}
       </Link>
