@@ -16,17 +16,20 @@ export const baseUrl = 'https://api.jikan.moe/v4'
 class Service {
   private api = baseUrl
 
-  private sortByScoreDescending(array: Anime[]): Anime[] {
-    return array.sort((a, b) => {
-      if (a.score && b.score) {
-        return b.score - a.score
-      }
+  private sortByScoreDescending(animes: Anime[]): AnimeByTitle | null {
+    const sortedAnimes = animes.sort((a, b) => {
+      if (a.score && b.score) return b.score - a.score
       return 0
     })
-  }
 
-  private animeChunk(animes: Anime[]): AnimeChunks {
-    const chunks: AnimeChunks = []
+    const anime = sortedAnimes.shift()
+
+    if (!anime) {
+      logger.error('Anime by title not found')
+      return null
+    }
+
+    const othersAnimes: AnimeChunks = []
     let count = 0
 
     for (let i = 0; i < animes.length; i += 4) {
@@ -34,13 +37,16 @@ class Service {
         count += 1
       }
 
-      chunks.push({
+      othersAnimes.push({
         animes: animes.slice(i, i + 4),
         page: count,
       })
     }
 
-    return chunks
+    return {
+      anime,
+      othersAnimes,
+    }
   }
 
   getAnimesByTitle = async (title: string): Promise<AnimeByTitle | null> => {
@@ -56,19 +62,7 @@ class Service {
           }
         }
 
-        const sortedAnimes = this.sortByScoreDescending(animes)
-
-        const anime = sortedAnimes.shift()
-
-        if (!anime) {
-          logger.error('Anime by title not found')
-          return null
-        }
-
-        return {
-          anime,
-          othersAnimes: this.animeChunk(sortedAnimes),
-        }
+        return this.sortByScoreDescending(animes)
       })
       .catch((err) => {
         logger.error(err)
