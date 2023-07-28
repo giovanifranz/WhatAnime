@@ -1,8 +1,8 @@
+import { bleachMock, narutoMock, getAnimesByTitleMock } from '@/mocks'
 import { AnimeService } from '@/services/http'
 import { vi } from 'vitest'
 
 import { animeStore, initialState } from './animeStore'
-import { bleachMock, narutoMock, getAnimesByTitleMock } from './mock/mock'
 
 vi.mock('@/services/http/anime', () => {
   return {
@@ -14,7 +14,7 @@ vi.mock('@/services/http/anime', () => {
   }
 })
 
-describe('Teste unitário - animeStore', () => {
+describe('Teste Unitário - animeStore', () => {
   beforeEach(() => {
     animeStore.setState(initialState)
   })
@@ -135,16 +135,6 @@ describe('Teste unitário - animeStore', () => {
 
       expect(AnimeService.getAnimesByTitle).toHaveBeenCalledTimes(1)
       expect(byTitle).toBe(getAnimesByTitleMock)
-    })
-
-    it('Titulo deve ter pelo menos três caracteres', async () => {
-      const { getAnimesByTitle } = animeStore.getState()
-      await getAnimesByTitle('ab')
-
-      const { byTitle } = animeStore.getState()
-
-      expect(AnimeService.getAnimesByTitle).not.toHaveBeenCalled()
-      expect(byTitle).toBeNull()
     })
 
     it('Deve retornar nulo em caso de response invalido', async () => {

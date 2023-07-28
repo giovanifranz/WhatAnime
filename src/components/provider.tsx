@@ -25,7 +25,7 @@ export function Provider({ children }: PropsWithChildren) {
       return
     }
 
-    import('@/mocks').then(() => setShouldRender(true))
+    import('@/mocks/setup-msw').then(() => setShouldRender(true))
   }
 
   useEffect(() => {

@@ -1,8 +1,8 @@
-import schemaWithoutWebp from '@/mocks/handlers/anime/schema-without-webp.json'
+import schemaWithoutWebp from '@/mocks/setup-msw/handlers/anime/schema-without-webp.json'
 
 import { AnimeSchema } from './schema'
 
-describe('AnimeSchema', () => {
+describe('Teste Unitário - AnimeSchema', () => {
   it('Deve retornar como image a versão JPG caso não possua WEBP', () => {
     const validate = AnimeSchema.safeParse(schemaWithoutWebp.data)
     expect(validate.success).toBe(true)

@@ -21,6 +21,8 @@ export function isMockEnabled() {
 }
 
 export function processAndConvertToLowerCase(str: string) {
-  const processedString = str.replace(/[^\w\s]/gi, '')
-  return processedString.toLowerCase()
+  return str
+    .trim()
+    .replace(/[^\w\s]/gi, '')
+    .toLowerCase()
 }

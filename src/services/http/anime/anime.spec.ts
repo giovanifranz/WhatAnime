@@ -1,12 +1,12 @@
-import getAnimesByTitleMock from '@/mocks/handlers/anime/get-anime-by-title-response.json'
-import randomAnime from '@/mocks/handlers/anime/random.json'
-import singleAnime from '@/mocks/handlers/anime/single.json'
-import { server } from '@/mocks/server'
+import getAnimesByTitleMock from '@/mocks/setup-msw/handlers/anime/get-anime-by-title-response.json'
+import randomAnime from '@/mocks/setup-msw/handlers/anime/random.json'
+import singleAnime from '@/mocks/setup-msw/handlers/anime/single.json'
+import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
 
 import service, { baseUrl } from './'
 
-describe('Anime Service', () => {
+describe('Teste de Integração - Anime Service', () => {
   describe(service.getAnimeById.name, () => {
     it('Deve retornar anime por ID', async () => {
       const response = await service.getAnimeById(21)

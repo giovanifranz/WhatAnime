@@ -37,7 +37,7 @@ export const animeStore = create(
     (set, get) => ({
       ...initialState,
       getAnimesByTitle: async (title: string) => {
-        if (title.length < 3) return
+        title = processAndConvertToLowerCase(title)
 
         const { byTitle } = get()
         if (byTitle?.anime) {
@@ -51,8 +51,7 @@ export const animeStore = create(
 
           const exists = titles.find((value) => {
             const storedTitle = processAndConvertToLowerCase(value)
-            const titleToCompare = processAndConvertToLowerCase(title)
-            return storedTitle.includes(titleToCompare)
+            return storedTitle.includes(title)
           })
 
           if (exists) return

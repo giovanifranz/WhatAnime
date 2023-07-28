@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 }
 
 if (isMockEnabled()) {
-  require('@/mocks')
+  require('@/mocks/setup-msw')
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {

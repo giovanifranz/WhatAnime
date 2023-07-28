@@ -1,4 +1,4 @@
-import { server } from '@/mocks/server'
+import { server } from '@/mocks/setup-msw/server'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'

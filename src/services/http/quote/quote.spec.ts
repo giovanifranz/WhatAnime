@@ -1,10 +1,10 @@
-import singleQuote from '@/mocks/handlers/quote/single-quote.json'
-import { server } from '@/mocks/server'
+import singleQuote from '@/mocks/setup-msw/handlers/quote/single-quote.json'
+import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
 
 import service, { baseUrl } from './'
 
-describe('Quote Service', () => {
+describe('Teste de Integração - Quote Service', () => {
   describe(service.getRandomQuote.name, () => {
     it('Deve uma quote corretamente', async () => {
       const response = await service.getRandomQuote()
