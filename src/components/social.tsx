@@ -12,7 +12,7 @@ export function Social({ icon, ...rest }: Props) {
       {...rest}
       className="rounded-lg bg-neutral-50 p-2 text-neutral-800 transition-all hover:opacity-90"
     >
-      <Icon size={24} />
+      <Icon data-testid="social-icon" size={24} />
     </Link>
   )
 }

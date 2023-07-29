@@ -44,6 +44,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
               href="https://myanimelist.net/profile/HighlanderTech"
             >
               <svg
+                data-testid="social-icon"
                 fill="currentColor"
                 height="24"
                 role="img"
@@ -65,6 +66,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
               href="https://anilist.co/user/giovanifranz/"
             >
               <svg
+                data-testid="social-icon"
                 fill="currentColor"
                 height="24"
                 role="img"
@@ -93,6 +95,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
               href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.whatanime.com.br"
             >
               <svg
+                data-testid="social-icon"
                 fill="currentColor"
                 height="24"
                 stroke="currentColor"
@@ -112,6 +115,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
               href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.whatanime.com.br"
             >
               <svg
+                data-testid="social-icon"
                 fill="currentColor"
                 height="24"
                 stroke="currentColor"
