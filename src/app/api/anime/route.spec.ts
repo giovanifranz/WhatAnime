@@ -38,7 +38,7 @@ describe('Teste de Integração - Anime Route Handler', () => {
       })
     })
 
-    it.only('Deve retornar status 404 em caso de falha na resposta', async () => {
+    it('Deve retornar status 404 em caso de falha na resposta', async () => {
       const mock = {
         data: null,
         isLoading: false,
