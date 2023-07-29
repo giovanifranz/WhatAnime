@@ -1,6 +1,5 @@
-import { getAnimesByTitleMock } from '@/mocks'
-import randomAnime from '@/mocks/setup-msw/handlers/anime/random.json'
-import singleAnime from '@/mocks/setup-msw/handlers/anime/single.json'
+import { ERROR } from '@/common/enum'
+import { getAnimesByTitleMock, onePieceMock } from '@/mocks'
 import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
 
@@ -11,13 +10,9 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar anime por ID', async () => {
       const response = await service.getAnimeById(21)
 
-      expect(response!.id).toBe(singleAnime.data.mal_id)
-      expect(response!.image).toBe(singleAnime.data.images.webp.image_url)
-      expect(response!.title).toBe(singleAnime.data.title)
-      expect(response!.episodes).toBe(singleAnime.data.episodes)
-      expect(response!.synopsis).toBe(singleAnime.data.synopsis)
-      expect(response!.year).toBe(singleAnime.data.year)
-      expect(response!.score).toBe(singleAnime.data.score)
+      expect(response.data).toStrictEqual(onePieceMock)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -27,8 +22,10 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const anime = await service.getAnimeById(21)
-      expect(anime).toBeNull()
+      const response = await service.getAnimeById(21)
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso falha na request', async () => {
@@ -38,15 +35,20 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const anime = await service.getAnimeById(21)
-      expect(anime).toBeNull()
+      const response = await service.getAnimeById(21)
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 
   describe(service.getAnimesByTitle.name, () => {
     it('Deve retornar animes por título', async () => {
-      const response = await service.getAnimesByTitle('naruto')
-      expect(response).toStrictEqual(getAnimesByTitleMock)
+      const response = await service.getAnimesByTitle('Naruto')
+
+      expect(response.data).toStrictEqual(getAnimesByTitleMock)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -56,8 +58,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const response = await service.getAnimesByTitle('naruto')
-      expect(response).toBeNull()
+      const response = await service.getAnimesByTitle('Naruto')
+
+      expect(response.data).toBeNull()
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso falha na request', async () => {
@@ -67,8 +72,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const response = await service.getAnimesByTitle('naruto')
-      expect(response).toBeNull()
+      const response = await service.getAnimesByTitle('Naruto')
+
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 
@@ -76,12 +84,9 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar anime aleatório', async () => {
       const response = await service.getAnimeRandom()
 
-      expect(response!.id).toEqual(randomAnime.data.mal_id)
-      expect(response!.image).toEqual(randomAnime.data.images.webp.image_url)
-      expect(response!.title).toEqual(randomAnime.data.title)
-      expect(response!.episodes).toEqual(randomAnime.data.episodes)
-      expect(response!.synopsis).toEqual(randomAnime.data.synopsis)
-      expect(response!.year).toEqual(randomAnime.data.year)
+      expect(response.data).toStrictEqual(onePieceMock)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -91,8 +96,10 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const anime = await service.getAnimeRandom()
-      expect(anime).toBeNull()
+      const response = await service.getAnimeRandom()
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso falha na request', async () => {
@@ -102,8 +109,10 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const anime = await service.getAnimeRandom()
-      expect(anime).toBeNull()
+      const response = await service.getAnimeRandom()
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 
@@ -111,7 +120,9 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar ranking de animes em exibição', async () => {
       const response = await service.getAnimesByAiring()
 
-      expect(response.length).toBe(5)
+      expect(response.data?.length).toEqual(5)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar array vazio de animes em exibição em caso de valor invalido', async () => {
@@ -121,8 +132,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const animes = await service.getAnimesByAiring()
-      expect(animes.length).toEqual(0)
+      const response = await service.getAnimesByAiring()
+
+      expect(response.data?.length).toEqual(0)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar array vazio de animes em exibição em caso falha na request', async () => {
@@ -132,8 +146,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const animes = await service.getAnimesByAiring()
-      expect(animes.length).toEqual(0)
+      const response = await service.getAnimesByAiring()
+
+      expect(response.data?.length).toEqual(0)
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 
@@ -141,7 +158,9 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar ranking de animes por popularidade', async () => {
       const response = await service.getAnimesByPopularity()
 
-      expect(response.length).toEqual(10)
+      expect(response.data?.length).toEqual(10)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar array vazio de animes por popularidade em caso de valor invalido', async () => {
@@ -151,8 +170,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const animes = await service.getAnimesByPopularity()
-      expect(animes.length).toEqual(0)
+      const response = await service.getAnimesByPopularity()
+
+      expect(response.data?.length).toEqual(0)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar array vazio de animes por popularidade em caso falha na request', async () => {
@@ -162,8 +184,11 @@ describe('Teste de Integração - Anime Service', () => {
         }),
       )
 
-      const animes = await service.getAnimesByPopularity()
-      expect(animes.length).toEqual(0)
+      const response = await service.getAnimesByPopularity()
+
+      expect(response.data?.length).toEqual(0)
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 })

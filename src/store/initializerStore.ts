@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 import type { Anime } from '@/services/http/anime/schema'
 
@@ -8,23 +8,20 @@ import { animeStore } from './animeStore'
 
 type Props = {
   random: Anime | null
-  animeQuote: Anime | null
 }
 
-export function InitializerStore({ random, animeQuote }: Partial<Props>) {
+export function InitializerStore({ random }: Partial<Props>) {
   const initializer = useRef(false)
-  const { storedQuote, storedRandom } = animeStore((store) => ({
-    storedRandom: store.random,
-    storedQuote: store.animeQuote,
-  }))
+  const storedRandom = animeStore((store) => store.random)
 
-  if (!initializer.current) {
-    animeStore.setState({
-      random: random || storedRandom,
-      animeQuote: animeQuote || storedQuote,
-    })
-    initializer.current = true
-  }
+  useLayoutEffect(() => {
+    if (!initializer.current) {
+      animeStore.setState({
+        random: random || storedRandom,
+      })
+      initializer.current = true
+    }
+  }, [random, storedRandom])
 
   return null
 }

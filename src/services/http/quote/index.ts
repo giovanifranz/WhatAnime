@@ -1,4 +1,7 @@
-import { ONE_DAY, logger } from '@/lib/utils'
+import { ERROR, REVALIDATE } from '@/common/enum'
+import type { ServiceResponse } from '@/services/types/service'
+
+import { fetchData } from '@/lib/fetchData'
 
 import { Quote, QuoteResponse, QuoteSchema } from './schema'
 
@@ -7,25 +10,34 @@ export const baseUrl = 'https://animechan.xyz/api'
 class Service {
   private api = baseUrl
 
-  getRandomQuote = async (): Promise<Quote | null> => {
-    return fetch(`${this.api}/random`, {
-      next: { revalidate: ONE_DAY },
-    })
-      .then(async (res) => {
-        const data: QuoteResponse = await res.json()
-        const validate = await QuoteSchema.safeParseAsync(data)
-
-        if (!validate.success) {
-          logger.error(validate.error)
-          return null
+  getRandomQuote = async (): ServiceResponse<Quote> => {
+    return await fetchData<QuoteResponse>(`${this.api}/random`, {
+      next: { revalidate: REVALIDATE.ONE_DAY },
+    }).then((response) => {
+      if (response.error) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: null,
         }
+      }
 
-        return validate.data
-      })
-      .catch((err) => {
-        logger.error(err)
-        return null
-      })
+      const validate = QuoteSchema.safeParse(response.data)
+
+      if (!validate.success) {
+        return {
+          error: ERROR.PARSING,
+          isLoading: false,
+          data: null,
+        }
+      }
+
+      return {
+        error: null,
+        isLoading: false,
+        data: validate.data,
+      }
+    })
   }
 }
 

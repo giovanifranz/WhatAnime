@@ -3,7 +3,6 @@ import type { SingleResponse, MultipleResponse } from '@/services/http/anime/sch
 import { rest, type RequestHandler } from 'msw'
 
 import multipleAnimes from './multiple.json'
-import randomAnime from './random.json'
 import singleAnime from './single.json'
 
 export const handlers: RequestHandler[] = [
@@ -12,7 +11,7 @@ export const handlers: RequestHandler[] = [
   }),
 
   rest.get<SingleResponse>(`${baseUrl}/random/anime`, (_, res, ctx) => {
-    return res(ctx.delay(100), ctx.status(200), ctx.json(randomAnime))
+    return res(ctx.delay(100), ctx.status(200), ctx.json(singleAnime))
   }),
 
   rest.get<MultipleResponse>(`${baseUrl}/anime`, (req, res, ctx) => {

@@ -1,11 +1,8 @@
-import type { HtmlHTMLAttributes } from 'react'
+import { Suspense, type HtmlHTMLAttributes } from 'react'
 
-import { AnimeService, QuoteService } from '@/services/http'
+import { QuoteService } from '@/services/http'
 
 import { cn } from '@/lib/utils'
-
-import { animeStore } from '@/store/animeStore'
-import { InitializerStore } from '@/store/initializerStore'
 
 import Button from './button'
 
@@ -13,14 +10,6 @@ type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export async function Quote({ className, ...rest }: Props) {
   const data = await QuoteService.getRandomQuote()
-
-  if (!data) return null
-
-  const animeQuote = await AnimeService.getAnimesByTitle(data.title).then((result) => {
-    if (!result) return null
-    animeStore.setState({ animeQuote: result.anime })
-    return result.anime
-  })
 
   return (
     <div
@@ -36,8 +25,9 @@ export async function Quote({ className, ...rest }: Props) {
         <span className="truncate font-bold">{data.character}</span>
         <span className="truncate">{data.title}</span>
       </div>
-      <Button />
-      <InitializerStore animeQuote={animeQuote} />
+      <Suspense>
+        <Button title={data.title} />
+      </Suspense>
     </div>
   )
 }

@@ -1,4 +1,9 @@
-import { ONE_DAY, logger } from '@/lib/utils'
+import { REVALIDATE, ERROR } from '@/common/enum'
+import type { ServiceResponse } from '@/services/types/service'
+
+import { logger } from '@/lib/utils'
+
+import { fetchData } from '@/lib/fetchData'
 
 import {
   Anime,
@@ -49,111 +54,156 @@ class Service {
     }
   }
 
-  getAnimesByTitle = async (title: string): Promise<AnimeByTitle | null> => {
-    return fetch(`${this.api}/anime?q=${encodeURIComponent(title)}&sfw`)
-      .then(async (res) => {
-        const { data }: MultipleResponse = await res.json()
-        const animes: Anime[] = []
-
-        for (const anime of data) {
-          const validate = AnimeSchema.safeParse(anime)
-          if (validate.success) {
-            animes.push(validate.data)
-          }
+  getAnimesByTitle = async (title: string): ServiceResponse<AnimeByTitle | null> => {
+    return fetchData<MultipleResponse>(
+      `${this.api}/anime?q=${encodeURIComponent(title)}&sfw`,
+    ).then((response) => {
+      if (!response.data?.data) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: null,
         }
+      }
 
-        return this.sortByScoreDescending(animes)
-      })
-      .catch((err) => {
-        logger.error(err)
-        return null
-      })
-  }
+      const animes: Anime[] = []
 
-  getAnimeById = async (id: number): Promise<Anime | null> => {
-    return fetch(`${this.api}/anime/${id}`)
-      .then(async (res) => {
-        const { data }: SingleResponse = await res.json()
-        const validate = await AnimeSchema.safeParseAsync(data)
-
-        if (!validate.success) {
-          logger.error(validate.error)
-          return null
+      for (const anime of response.data.data) {
+        const validate = AnimeSchema.safeParse(anime)
+        if (validate.success) {
+          animes.push(validate.data)
         }
+      }
 
-        return validate.data
-      })
-      .catch((err) => {
-        logger.error(err)
-        return null
-      })
-  }
-
-  getAnimeRandom = async (): Promise<Anime | null> => {
-    return fetch(`${this.api}/random/anime`, {
-      next: { revalidate: ONE_DAY },
+      return {
+        error: response.error,
+        isLoading: response.isLoading,
+        data: this.sortByScoreDescending(animes),
+      }
     })
-      .then(async (res) => {
-        const { data }: SingleResponse = await res.json()
-        const validate = await AnimeSchema.safeParseAsync(data)
-
-        if (!validate.success) {
-          logger.error(validate.error)
-          return null
-        }
-
-        return validate.data
-      })
-      .catch((err) => {
-        logger.error(err)
-        return null
-      })
   }
 
-  getAnimesByAiring = async (): Promise<Ranking[]> => {
-    return fetch(`${this.api}/anime?order_by=score&status=airing&&sort=desc`, {
-      next: { revalidate: ONE_DAY },
-    })
-      .then(async (res) => {
-        const { data }: MultipleResponse = await res.json()
-        const animes: Ranking[] = []
+  getAnimeById = async (id: number): ServiceResponse<Anime> => {
+    return fetchData<SingleResponse>(`${this.api}/anime/${id}`).then((response) => {
+      if (response.error) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: null,
+        }
+      }
 
-        for (const anime of data) {
+      const validate = AnimeSchema.safeParse(response.data?.data)
+
+      if (!validate.success) {
+        return {
+          error: ERROR.PARSING,
+          isLoading: false,
+          data: null,
+        }
+      }
+
+      return {
+        error: null,
+        isLoading: false,
+        data: validate.data,
+      }
+    })
+  }
+
+  getAnimeRandom = async (): ServiceResponse<Anime> => {
+    return fetchData<SingleResponse>(`${this.api}/random/anime`, {
+      next: { revalidate: REVALIDATE.ONE_DAY },
+    }).then((response) => {
+      if (response.error) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: null,
+        }
+      }
+
+      const validate = AnimeSchema.safeParse(response.data?.data)
+
+      if (!validate.success) {
+        return {
+          error: ERROR.PARSING,
+          isLoading: false,
+          data: null,
+        }
+      }
+
+      return {
+        error: null,
+        isLoading: false,
+        data: validate.data,
+      }
+    })
+  }
+
+  getAnimesByAiring = async (): ServiceResponse<Ranking[]> => {
+    return fetchData<MultipleResponse>(
+      `${this.api}/anime?order_by=score&status=airing&&sort=desc`,
+      {
+        next: { revalidate: REVALIDATE.ONE_DAY },
+      },
+    ).then((response) => {
+      const animes: Ranking[] = []
+
+      if (response.error) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: animes,
+        }
+      }
+
+      if (response.data?.data) {
+        for (const anime of response.data.data) {
           const validate = RankingSchema.safeParse(anime)
           if (validate.success) {
             animes.push(validate.data)
           }
         }
+      }
 
-        return animes.slice(0, 5)
-      })
-      .catch((err) => {
-        logger.error(err)
-        return []
-      })
+      return {
+        error: null,
+        isLoading: false,
+        data: animes.slice(0, 5),
+      }
+    })
   }
 
-  getAnimesByPopularity = async (): Promise<Ranking[]> => {
-    return fetch(`${this.api}/anime?order_by=popularity`, {
-      next: { revalidate: ONE_DAY },
-    })
-      .then(async (res) => {
-        const { data }: MultipleResponse = await res.json()
-        const animes: Ranking[] = []
+  getAnimesByPopularity = async (): ServiceResponse<Ranking[]> => {
+    return fetchData<MultipleResponse>(`${this.api}/anime?order_by=popularity`, {
+      next: { revalidate: REVALIDATE.ONE_DAY },
+    }).then((response) => {
+      const animes: Ranking[] = []
 
-        for (const anime of data) {
+      if (response.error) {
+        return {
+          error: response.error,
+          isLoading: response.isLoading,
+          data: animes,
+        }
+      }
+
+      if (response.data?.data) {
+        for (const anime of response.data.data) {
           const validate = RankingSchema.safeParse(anime)
           if (validate.success) {
             animes.push(validate.data)
           }
         }
+      }
 
-        return animes.slice(0, 10)
-      })
-      .catch((err) => {
-        logger.error(err)
-        return []
-      })
+      return {
+        error: null,
+        isLoading: false,
+        data: animes.slice(0, 10),
+      }
+    })
   }
 }
 

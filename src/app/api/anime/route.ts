@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 
+import { REVALIDATE } from '@/common/enum/revalidate'
 import { AnimeService } from '@/services/http'
 
-import { ONE_DAY } from '@/lib/utils'
-
-export const revalidate = ONE_DAY
+export const revalidate = REVALIDATE.ONE_DAY
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)

@@ -11,8 +11,6 @@ export const logger = pino({
   enabled: process.env.ENV_TYPE !== 'test',
 })
 
-export const ONE_DAY = 60 * 60 * 24
-
 export function isDevEnvironment() {
   return process.env.NODE_ENV === 'development'
 }

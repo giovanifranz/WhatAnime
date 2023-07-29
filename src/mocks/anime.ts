@@ -20,6 +20,16 @@ export const bleachMock: Anime = {
   score: 7.89,
 }
 
+export const onePieceMock: Anime = {
+  id: 21,
+  image: 'https://cdn.myanimelist.net/images/anime/6/73245.webp',
+  title: 'One Piece',
+  episodes: null,
+  synopsis: 'Gol D. Roger was known as the "Pirate King',
+  year: 1999,
+  score: 8.7,
+}
+
 export const getAnimesByTitleMock: AnimeByTitle = {
   anime: {
     id: 53236,

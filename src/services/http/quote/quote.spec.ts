@@ -1,4 +1,5 @@
-import singleQuote from '@/mocks/setup-msw/handlers/quote/single-quote.json'
+import { ERROR } from '@/common/enum'
+import { quoteMock } from '@/mocks'
 import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
 
@@ -9,9 +10,9 @@ describe('Teste de Integração - Quote Service', () => {
     it('Deve uma quote corretamente', async () => {
       const response = await service.getRandomQuote()
 
-      expect(response!.title).toBe(singleQuote.anime)
-      expect(response!.character).toBe(singleQuote.character)
-      expect(response!.quote).toBe(singleQuote.quote)
+      expect(response.data).toStrictEqual(quoteMock)
+      expect(response.error).toBeNull()
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso de valor invalido', async () => {
@@ -21,8 +22,10 @@ describe('Teste de Integração - Quote Service', () => {
         }),
       )
 
-      const quote = await service.getRandomQuote()
-      expect(quote).toBeNull()
+      const response = await service.getRandomQuote()
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.isLoading).toBeFalsy()
     })
 
     it('Deve retornar nulo em caso falha na request', async () => {
@@ -32,8 +35,10 @@ describe('Teste de Integração - Quote Service', () => {
         }),
       )
 
-      const quote = await service.getRandomQuote()
-      expect(quote).toBeNull()
+      const response = await service.getRandomQuote()
+      expect(response.data).toBeNull()
+      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.isLoading).toBeFalsy()
     })
   })
 })
