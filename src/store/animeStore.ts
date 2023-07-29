@@ -62,6 +62,15 @@ export const animeStore = create(
           if (exists) return
         }
 
+        set((state) => ({
+          ...state,
+          byTitle: {
+            data: null,
+            error: null,
+            isLoading: true,
+          },
+        }))
+
         const { data: response } = await fetchData<DataResponse<Anime>>(
           `/api/anime?title=${title}`,
         )
@@ -92,11 +101,29 @@ export const animeStore = create(
         }))
       },
       getAnimeRandom: async () => {
+        const { random } = get()
+        set((state) => ({
+          ...state,
+          random: {
+            data: random?.data || null,
+            error: random?.error || null,
+            isLoading: true,
+          },
+        }))
         const response = await AnimeService.getAnimeRandom()
         set((state) => ({ ...state, random: response }))
       },
       getAnimeById: async (id: number) => {
         const { byId } = get()
+        set((state) => ({
+          ...state,
+          byId: {
+            data: byId?.data || null,
+            error: byId?.error || null,
+            isLoading: true,
+          },
+        }))
+
         if (byId?.data?.id === id) return
 
         const response = await AnimeService.getAnimeById(id)
