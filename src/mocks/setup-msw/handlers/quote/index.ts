@@ -6,6 +6,6 @@ import singleQuote from './single-quote.json'
 
 export const handlers: RequestHandler[] = [
   rest.get<QuoteResponse>(`${baseUrl}/random`, (_, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(singleQuote))
+    return res(ctx.delay(100), ctx.status(200), ctx.json(singleQuote))
   }),
 ]

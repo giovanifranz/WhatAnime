@@ -17,7 +17,7 @@ describe('Teste de Integração - Quote Service', () => {
     it('Deve retornar nulo em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/random`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -28,7 +28,7 @@ describe('Teste de Integração - Quote Service', () => {
     it('Deve retornar nulo em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/random`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 

@@ -23,7 +23,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime/:id`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -34,7 +34,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/anime/:id`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 
@@ -52,7 +52,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -63,7 +63,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 
@@ -87,7 +87,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/random/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -98,7 +98,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar nulo em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/random/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 
@@ -117,7 +117,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar array vazio de animes em exibição em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -128,7 +128,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar array vazio de animes em exibição em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 
@@ -147,7 +147,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar array vazio de animes por popularidade em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.json({ invalidData: true }))
+          return res(ctx.delay(100), ctx.json({ invalidData: true }))
         }),
       )
 
@@ -158,7 +158,7 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar array vazio de animes por popularidade em caso falha na request', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
-          return res(ctx.delay(300), ctx.status(500))
+          return res(ctx.delay(100), ctx.status(500))
         }),
       )
 
