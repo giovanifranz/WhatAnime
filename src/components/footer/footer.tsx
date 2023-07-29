@@ -5,9 +5,10 @@ import { SiAnilist, SiMyanimelist } from 'react-icons/si'
 
 import Highlander from '@/assets/highlander.svg'
 
-import { Logo } from './logo'
+import { Logo } from '@/components'
+
+import { Separator } from './separator'
 import { Social } from './social'
-import { Separator } from './ui/separator'
 
 export function Footer() {
   return (
@@ -45,14 +46,8 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <Separator
-          orientation="vertical"
-          className="my-auto hidden h-72 bg-neutral-200 md:flex"
-        />
-        <Separator
-          orientation="horizontal"
-          className="mx-auto my-4 bg-neutral-200 md:hidden"
-        />
+        <Separator />
+
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <p className="max-w-xs">
