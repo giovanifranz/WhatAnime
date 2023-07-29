@@ -9,6 +9,7 @@ type Props = Pick<Anime, 'title'> & {
 export function MiniCard({ image, title }: Props) {
   return (
     <Card
+      data-testid="mini-card"
       className={'relative  h-64 w-44 bg-neutral-600 bg-cover'}
       style={{ backgroundImage: `url(${image})` }}
     >

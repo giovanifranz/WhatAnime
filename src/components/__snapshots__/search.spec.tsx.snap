@@ -1,0 +1,123 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Teste Unitário - Search > Deve renderizar o Search corretamente 1`] = `
+<DocumentFragment>
+  <script>
+    !function(){try{var d=document.documentElement,c=d.classList;c.remove('light','dark');var e=localStorage.getItem('theme');if('system'===e||(!e&&false)){var t='(prefers-color-scheme: dark)',m=window.matchMedia(t);if(m.media!==t||m.matches){d.style.colorScheme = 'dark';c.add('dark')}else{d.style.colorScheme = 'light';c.add('light')}}else if(e){c.add(e|| '')}else{c.add('dark')}if(e==='light'||e==='dark'||!e)d.style.colorScheme=e||'dark'}catch(e){}}()
+  </script>
+  <form
+    class="flex flex-col gap-4 max-w-4xl justify-center"
+  >
+    <div
+      class="space-y-2"
+    >
+      <div
+        class="flex h-12 items-center gap-4"
+      >
+        <label
+          class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 scroll-m-20 text-2xl font-semibold uppercase tracking-tight md:text-3xl"
+          for=":r0:-form-item"
+        >
+          Search
+        </label>
+        <button
+          aria-autocomplete="none"
+          aria-controls="radix-:r1:"
+          aria-expanded="false"
+          class="flex h-10 items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-24"
+          data-state="closed"
+          dir="ltr"
+          role="combobox"
+          type="button"
+        >
+          <span
+            style="pointer-events: none;"
+          >
+            Word
+          </span>
+          <svg
+            aria-hidden="true"
+            class="h-4 w-4 opacity-50"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m6 9 6 6 6-6"
+            />
+          </svg>
+        </button>
+        <select
+          aria-hidden="true"
+          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+          tabindex="-1"
+        >
+          <option
+            selected=""
+            value="word"
+          >
+            Word
+          </option>
+          <option
+            value="upload"
+          >
+            Upload
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="flex w-full max-w-full items-center space-x-2"
+    >
+      <div
+        class="space-y-2 w-full"
+      >
+        <input
+          aria-describedby=":r2:-form-item-description"
+          aria-invalid="false"
+          class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          id=":r2:-form-item"
+          name="title"
+          placeholder="Enter your search key word"
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+        type="submit"
+      >
+        <svg
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="11"
+            cy="11"
+            r="8"
+          />
+          <line
+            x1="21"
+            x2="16.65"
+            y1="21"
+            y2="16.65"
+          />
+        </svg>
+      </button>
+    </div>
+  </form>
+</DocumentFragment>
+`;

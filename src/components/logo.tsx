@@ -5,7 +5,7 @@ import WhatAnime from '@/assets/logo.svg'
 
 export function Logo() {
   return (
-    <Link href="/">
+    <Link data-testid="logo" href="/">
       <Image src={WhatAnime} alt="WhatAnime" width={227} height={76} />
     </Link>
   )

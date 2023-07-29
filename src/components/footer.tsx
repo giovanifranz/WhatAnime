@@ -19,19 +19,26 @@ export function Footer() {
             <span>CONNECT</span>
             <div className="flex gap-4">
               <Social
+                data-testid="myanimelist-social"
                 href="https://myanimelist.net/profile/HighlanderTech"
                 icon={SiMyanimelist}
               />
-              <Social href="https://anilist.co/user/giovanifranz/" icon={SiAnilist} />
+              <Social
+                data-testid="anilist-social"
+                href="https://anilist.co/user/giovanifranz/"
+                icon={SiAnilist}
+              />
             </div>
 
             <span>SHARE</span>
             <div className="flex gap-4">
               <Social
+                data-testid="facebook-social"
                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.whatanime.com.br"
                 icon={RiFacebookFill}
               />
               <Social
+                data-testid="twitter-social"
                 href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.whatanime.com.br"
                 icon={RiTwitterFill}
               />
@@ -53,6 +60,7 @@ export function Footer() {
               we can keep working on it!
             </p>
             <Link
+              data-testid="paypal"
               href="https://www.paypal.com/donate/?hosted_button_id=KJ9TK628E7N42"
               className="rounded-full bg-neutral-100 p-2 text-neutral-800"
             >
@@ -66,7 +74,7 @@ export function Footer() {
             series. Anime information compiled from AniList and MyAnimeList.
           </p>
           <span className="-mb-4 mt-4">DESIGNED BY</span>
-          <Link href="https://www.highlandertech.com.br/">
+          <Link href="https://www.highlandertech.com.br" data-testid="highlander-logo">
             <Image src={Highlander} alt="HighlanderTech" width={257} height={65} />
           </Link>
         </div>

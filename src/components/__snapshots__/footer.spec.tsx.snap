@@ -15,6 +15,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
         class="w-full md:w-2/5"
       >
         <a
+          data-testid="logo"
           href="/"
         >
           <img
@@ -39,6 +40,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
           >
             <a
               class="rounded-lg bg-neutral-50 p-2 text-neutral-800 transition-all hover:opacity-90"
+              data-testid="myanimelist-social"
               href="https://myanimelist.net/profile/HighlanderTech"
             >
               <svg
@@ -59,6 +61,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
             </a>
             <a
               class="rounded-lg bg-neutral-50 p-2 text-neutral-800 transition-all hover:opacity-90"
+              data-testid="anilist-social"
               href="https://anilist.co/user/giovanifranz/"
             >
               <svg
@@ -86,6 +89,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
           >
             <a
               class="rounded-lg bg-neutral-50 p-2 text-neutral-800 transition-all hover:opacity-90"
+              data-testid="facebook-social"
               href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.whatanime.com.br"
             >
               <svg
@@ -104,6 +108,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
             </a>
             <a
               class="rounded-lg bg-neutral-50 p-2 text-neutral-800 transition-all hover:opacity-90"
+              data-testid="twitter-social"
               href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.whatanime.com.br"
             >
               <svg
@@ -146,6 +151,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
           </p>
           <a
             class="rounded-full bg-neutral-100 p-2 text-neutral-800"
+            data-testid="paypal"
             href="https://www.paypal.com/donate/?hosted_button_id=KJ9TK628E7N42"
           >
             <svg
@@ -177,7 +183,8 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
           DESIGNED BY
         </span>
         <a
-          href="https://www.highlandertech.com.br/"
+          data-testid="highlander-logo"
+          href="https://www.highlandertech.com.br"
         >
           <img
             alt="HighlanderTech"

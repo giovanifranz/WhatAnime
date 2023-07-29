@@ -8,7 +8,7 @@ type Props = Pick<Anime, 'title' | 'id'> & {
 
 export default function Item({ index, id, title }: Props) {
   return (
-    <li className="w-44 truncate lg:w-56 " key={id}>
+    <li className="w-44 truncate lg:w-56" data-testid="list-item">
       <Link
         href={`/anime/${id}`}
         className="transition-all hover:underline hover:opacity-80"

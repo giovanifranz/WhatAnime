@@ -1,32 +1,24 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Header > Deve renderizar o Header corretamente 1`] = `
+exports[`Teste Unitário - MiniCard > Deve renderizar o MiniCard corretamente 1`] = `
 <DocumentFragment>
   <script>
     !function(){try{var d=document.documentElement,c=d.classList;c.remove('light','dark');var e=localStorage.getItem('theme');if('system'===e||(!e&&false)){var t='(prefers-color-scheme: dark)',m=window.matchMedia(t);if(m.media!==t||m.matches){d.style.colorScheme = 'dark';c.add('dark')}else{d.style.colorScheme = 'light';c.add('light')}}else if(e){c.add(e|| '')}else{c.add('dark')}if(e==='light'||e==='dark'||!e)d.style.colorScheme=e||'dark'}catch(e){}}()
   </script>
-  <header
-    class="absolute inset-x-0 top-0 z-50 bg-neutral-800 p-4"
+  <div
+    class="rounded-lg border text-card-foreground shadow-sm relative h-64 w-44 bg-neutral-600 bg-cover"
+    data-testid="mini-card"
+    style="background-image: url(https://cdn.myanimelist.net/images/anime/13/17405.jpg);"
   >
     <div
-      class="mx-auto max-w-7xl"
+      class="items-center absolute inset-x-0 bottom-0 flex justify-center rounded-b-lg bg-yellow-400 p-1 px-0"
     >
-      <a
-        data-testid="logo"
-        href="/"
+      <span
+        class="truncate px-2 font-semibold text-neutral-800"
       >
-        <img
-          alt="WhatAnime"
-          data-nimg="1"
-          decoding="async"
-          height="76"
-          loading="lazy"
-          src="/src/assets/logo.svg"
-          style="color: transparent;"
-          width="227"
-        />
-      </a>
+        naruto
+      </span>
     </div>
-  </header>
+  </div>
 </DocumentFragment>
 `;

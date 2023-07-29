@@ -1,32 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Header > Deve renderizar o Header corretamente 1`] = `
+exports[`Teste Unitário - ListItem > Deve renderizar o ListItem corretamente 1`] = `
 <DocumentFragment>
   <script>
     !function(){try{var d=document.documentElement,c=d.classList;c.remove('light','dark');var e=localStorage.getItem('theme');if('system'===e||(!e&&false)){var t='(prefers-color-scheme: dark)',m=window.matchMedia(t);if(m.media!==t||m.matches){d.style.colorScheme = 'dark';c.add('dark')}else{d.style.colorScheme = 'light';c.add('light')}}else if(e){c.add(e|| '')}else{c.add('dark')}if(e==='light'||e==='dark'||!e)d.style.colorScheme=e||'dark'}catch(e){}}()
   </script>
-  <header
-    class="absolute inset-x-0 top-0 z-50 bg-neutral-800 p-4"
+  <li
+    class="w-44 truncate lg:w-56"
+    data-testid="list-item"
   >
-    <div
-      class="mx-auto max-w-7xl"
+    <a
+      class="transition-all hover:underline hover:opacity-80"
+      href="/anime/21"
     >
-      <a
-        data-testid="logo"
-        href="/"
-      >
-        <img
-          alt="WhatAnime"
-          data-nimg="1"
-          decoding="async"
-          height="76"
-          loading="lazy"
-          src="/src/assets/logo.svg"
-          style="color: transparent;"
-          width="227"
-        />
-      </a>
-    </div>
-  </header>
+      4. Naruto
+    </a>
+  </li>
 </DocumentFragment>
 `;
