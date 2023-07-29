@@ -5,18 +5,20 @@ import { persist } from 'zustand/middleware'
 
 import { processAndConvertToLowerCase } from '@/lib/utils'
 
+import { fetchData, type DataResponse } from '@/lib/fetchData'
+
 import { ByTitleSchema } from './schema'
 
-type Props = {
-  byTitle: null | AnimeByTitle
-  byId: null | Anime
-  random: null | Anime
-  byPopularity: null | Anime[]
-  byAiring: null | Anime[]
-  animeQuote: null | Anime
+type State = {
+  byTitle: DataResponse<AnimeByTitle> | null
+  byId: DataResponse<Anime> | null
+  random: DataResponse<Anime> | null
+  byPopularity: DataResponse<Anime[]> | null
+  byAiring: DataResponse<Anime[]> | null
+  animeQuote: DataResponse<Anime> | null
 }
 
-interface Store extends Props {
+type Actions = {
   getAnimesByTitle: (title: string) => Promise<void>
   getAnimeRandom: () => Promise<void>
   getAnimeById: (id: number) => Promise<void>
@@ -35,17 +37,18 @@ export const initialState = {
 export type AnimeStore = ReturnType<typeof animeStore>
 
 export const animeStore = create(
-  persist<Store>(
+  persist<State & Actions>(
     (set, get) => ({
       ...initialState,
       getAnimesByTitle: async (title: string) => {
         title = processAndConvertToLowerCase(title)
 
         const { byTitle } = get()
-        if (byTitle?.anime) {
-          const titles: string[] = [byTitle.anime.title]
 
-          byTitle.othersAnimes.forEach((others, index) => {
+        if (byTitle?.data?.anime) {
+          const titles: string[] = [byTitle.data.anime.title]
+
+          byTitle.data.othersAnimes.forEach((others, index) => {
             if (others.animes[index]) {
               titles.push(others.animes[index].title)
             }
@@ -59,31 +62,45 @@ export const animeStore = create(
           if (exists) return
         }
 
-        const result = await fetch(`/api/anime?title=${title}`)
-        if (!result.ok) return
+        const { data: response } = await fetchData<DataResponse<Anime>>(
+          `/api/anime?title=${title}`,
+        )
 
-        const { data } = await result.json()
-        const parsedData = await ByTitleSchema.safeParseAsync(data)
+        if (response?.error) {
+          set((state) => ({
+            ...state,
+            byTitle: {
+              data: null,
+              error: response.error,
+              isLoading: response.isLoading,
+            },
+          }))
+          return
+        }
+
+        const parsedData = await ByTitleSchema.safeParseAsync(response?.data)
 
         if (!parsedData.success) return
 
-        set((state) => ({ ...state, byTitle: parsedData.data }))
+        set((state) => ({
+          ...state,
+          byTitle: {
+            data: parsedData.data,
+            error: null,
+            isLoading: false,
+          },
+        }))
       },
       getAnimeRandom: async () => {
-        await AnimeService.getAnimeRandom().then((data) => {
-          if (!data) return
-          set((state) => ({ ...state, random: data }))
-        })
+        const response = await AnimeService.getAnimeRandom()
+        set((state) => ({ ...state, random: response }))
       },
       getAnimeById: async (id: number) => {
         const { byId } = get()
-        if (byId?.id === id) return
+        if (byId?.data?.id === id) return
 
-        await AnimeService.getAnimeById(id).then((data) => {
-          if (!data) return
-
-          set((state) => ({ ...state, byId: data }))
-        })
+        const response = await AnimeService.getAnimeById(id)
+        set((state) => ({ ...state, byId: response }))
       },
     }),
     {

@@ -24,7 +24,11 @@ const rankingMap = {
 export async function Ranking({ className, type, ...rest }: Props) {
   const { getAnimes, heading } = rankingMap[type]
 
-  const data = await getAnimes()
+  const { data, error, isLoading } = await getAnimes()
+
+  if (isLoading) return <p>Loading ...</p>
+  if (error) return <p>Error ...</p>
+  if (!data) return <p>Not found</p>
 
   return (
     <section

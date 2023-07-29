@@ -1,9 +1,6 @@
 import { REVALIDATE, ERROR } from '@/common/enum'
-import type { ServiceResponse } from '@/services/types/service'
 
-import { logger } from '@/lib/utils'
-
-import { fetchData } from '@/lib/fetchData'
+import { DataResponse, fetchData } from '@/lib/fetchData'
 
 import {
   Anime,
@@ -18,6 +15,8 @@ import {
 
 export const baseUrl = 'https://api.jikan.moe/v4'
 
+type ServiceResponse<T> = Promise<DataResponse<T>>
+
 class Service {
   private api = baseUrl
 
@@ -27,12 +26,8 @@ class Service {
       return 0
     })
 
-    const anime = sortedAnimes.shift()
-
-    if (!anime) {
-      logger.error('Anime by title not found')
-      return null
-    }
+    const anime = sortedAnimes[0]
+    sortedAnimes.shift()
 
     const othersAnimes: AnimeChunks = []
     let count = 0
@@ -54,7 +49,7 @@ class Service {
     }
   }
 
-  getAnimesByTitle = async (title: string): ServiceResponse<AnimeByTitle | null> => {
+  getAnimesByTitle = async (title: string): ServiceResponse<AnimeByTitle> => {
     return fetchData<MultipleResponse>(
       `${this.api}/anime?q=${encodeURIComponent(title)}&sfw`,
     ).then((response) => {

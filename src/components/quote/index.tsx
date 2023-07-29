@@ -9,7 +9,11 @@ import Button from './button'
 type Props = HtmlHTMLAttributes<HTMLDivElement>
 
 export async function Quote({ className, ...rest }: Props) {
-  const data = await QuoteService.getRandomQuote()
+  const { data, error, isLoading } = await QuoteService.getRandomQuote()
+
+  if (isLoading) return <p>Loading ...</p>
+  if (error) return <p>Error ...</p>
+  if (!data) return <p>Not found</p>
 
   return (
     <div

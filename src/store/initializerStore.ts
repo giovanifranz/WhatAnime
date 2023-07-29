@@ -4,10 +4,12 @@ import { useLayoutEffect, useRef } from 'react'
 
 import type { Anime } from '@/services/http/anime/schema'
 
+import type { DataResponse } from '@/lib/fetchData'
+
 import { animeStore } from './animeStore'
 
 type Props = {
-  random: Anime | null
+  random: DataResponse<Anime> | null
 }
 
 export function InitializerStore({ random }: Partial<Props>) {

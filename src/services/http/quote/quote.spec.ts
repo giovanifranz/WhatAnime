@@ -37,7 +37,7 @@ describe('Teste de Integração - Quote Service', () => {
 
       const response = await service.getRandomQuote()
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.FETCHING)
+      expect(response.error).toEqual(ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })

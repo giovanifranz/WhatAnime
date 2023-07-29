@@ -12,13 +12,33 @@ type Props = {
 }
 
 export default async function QuoteButton({ title }: Props) {
-  const id = await AnimeService.getAnimesByTitle(title).then((result) => {
-    if (!result) return null
-    animeStore.setState({ animeQuote: result.anime })
-    return result.anime.id
-  })
+  const { id, error, isLoading } = await AnimeService.getAnimesByTitle(title).then(
+    (result) => {
+      if (!result.data)
+        return {
+          id: null,
+          isLoading: result.isLoading,
+          error: result.error,
+        }
 
-  if (!id) return null
+      animeStore.setState({
+        animeQuote: {
+          data: result.data.anime,
+          isLoading: false,
+          error: null,
+        },
+      })
+      return {
+        id: result.data.anime.id,
+        isLoading: result.isLoading,
+        error: result.error,
+      }
+    },
+  )
+
+  if (isLoading) return <p>Loading ...</p>
+  if (error) return <p>Error ...</p>
+  if (!id) return <p>Not found</p>
 
   return (
     <Button asChild className="absolute bottom-4 right-4">

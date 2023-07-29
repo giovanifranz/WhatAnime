@@ -24,7 +24,7 @@ export async function fetchData<T>(
     response.data = data
   } catch (error) {
     response.isLoading = false
-    response.error = ERROR.FETCHING
+    response.error = ERROR.NOT_FOUND
   }
 
   return response

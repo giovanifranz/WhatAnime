@@ -1,11 +1,12 @@
 import { ERROR, REVALIDATE } from '@/common/enum'
-import type { ServiceResponse } from '@/services/types/service'
 
-import { fetchData } from '@/lib/fetchData'
+import { DataResponse, fetchData } from '@/lib/fetchData'
 
 import { Quote, QuoteResponse, QuoteSchema } from './schema'
 
 export const baseUrl = 'https://animechan.xyz/api'
+
+type ServiceResponse<T> = Promise<DataResponse<T>>
 
 class Service {
   private api = baseUrl

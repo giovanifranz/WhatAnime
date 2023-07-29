@@ -11,13 +11,28 @@ import { MiniCard } from './mini-card'
 export default function FetchedCards() {
   const [pagination, setPagination] = useState(0)
 
-  const othersAnimes = animeStore((store) => store.byTitle?.othersAnimes || [])
+  const { othersAnimes, isLoading, error } = animeStore(({ byTitle }) => {
+    if (!byTitle) {
+      return {
+        othersAnimes: [],
+        isLoading: false,
+        error: null,
+      }
+    }
+    return {
+      othersAnimes: byTitle.data?.othersAnimes || [],
+      isLoading: byTitle.isLoading,
+      error: byTitle.error,
+    }
+  })
 
   const handleClick = useCallback((page: number) => {
     setPagination(page)
   }, [])
 
-  if (!othersAnimes.length) return null
+  if (isLoading) return <p>Loading ...</p>
+  if (error) return <p>Error ...</p>
+  if (othersAnimes.length <= 0) return null
 
   return (
     <>

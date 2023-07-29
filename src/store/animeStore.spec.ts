@@ -1,6 +1,9 @@
+import { ERROR } from '@/common/enum'
 import { bleachMock, narutoMock, getAnimesByTitleMock } from '@/mocks'
 import { AnimeService } from '@/services/http'
 import { vi } from 'vitest'
+
+import { fetchData } from '@/lib/fetchData'
 
 import { animeStore, initialState } from './animeStore'
 
@@ -13,6 +16,10 @@ vi.mock('@/services/http/anime', () => {
     },
   }
 })
+
+vi.mock('@/lib/fetchData', () => ({
+  fetchData: vi.fn(),
+}))
 
 describe('Teste Unitário - animeStore', () => {
   beforeEach(() => {
@@ -32,34 +39,54 @@ describe('Teste Unitário - animeStore', () => {
 
   describe('getAnimesById', () => {
     it('Deve atualizar a store', async () => {
-      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(
-        async () => narutoMock,
-      )
+      const mock = {
+        data: narutoMock,
+        isLoading: false,
+        error: null,
+      }
+      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(async () => mock)
+
       const { getAnimeById } = animeStore.getState()
       await getAnimeById(narutoMock.id)
 
       const { byId } = animeStore.getState()
 
       expect(AnimeService.getAnimeById).toHaveBeenCalledTimes(1)
-      expect(byId).toStrictEqual(narutoMock)
+      expect(byId).toStrictEqual(mock)
     })
 
     it('Deve atualizar caso anime da store possua outro id', async () => {
-      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(
-        async () => bleachMock,
-      )
-      animeStore.setState({ byId: narutoMock })
+      const firstMock = {
+        data: narutoMock,
+        isLoading: false,
+        error: null,
+      }
+
+      const secondMock = {
+        data: bleachMock,
+        isLoading: false,
+        error: null,
+      }
+
+      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(async () => firstMock)
+      animeStore.setState({ byId: secondMock })
 
       const { getAnimeById } = animeStore.getState()
-      await getAnimeById(bleachMock.id)
+      await getAnimeById(firstMock.data.id)
 
       const { byId } = animeStore.getState()
+
       expect(AnimeService.getAnimeById).toHaveBeenCalledTimes(1)
-      expect(byId).toStrictEqual(bleachMock)
+      expect(byId).toStrictEqual(firstMock)
     })
 
-    it('Deve retornar nulo em caso de response invalido', async () => {
-      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(async () => null)
+    it('Deve retornar error e data nulo em caso de response invalido', async () => {
+      const mock = {
+        data: null,
+        isLoading: false,
+        error: ERROR.NOT_FOUND,
+      }
+      vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(async () => mock)
 
       const { getAnimeById } = animeStore.getState()
 
@@ -68,49 +95,77 @@ describe('Teste Unitário - animeStore', () => {
       const { byId } = animeStore.getState()
 
       expect(AnimeService.getAnimeById).toHaveBeenCalledTimes(1)
-      expect(byId).toBeNull()
+
+      expect(byId).toStrictEqual(mock)
     })
 
     it('Não Deve atualizar caso já possua na store anime com mesmo id', async () => {
-      animeStore.setState({ byId: narutoMock })
+      const mock = {
+        data: narutoMock,
+        isLoading: false,
+        error: null,
+      }
+      animeStore.setState({ byId: mock })
+
       const { byId, getAnimeById } = animeStore.getState()
-      await getAnimeById(21)
+      await getAnimeById(mock.data.id)
 
       expect(AnimeService.getAnimeById).not.toHaveBeenCalled()
-      expect(byId).toStrictEqual(narutoMock)
+      expect(byId).toStrictEqual(mock)
     })
   })
 
   describe('getAnimeRandom', () => {
     it('Deve atualizar a store', async () => {
-      vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(
-        async () => narutoMock,
-      )
+      const mock = {
+        data: narutoMock,
+        isLoading: false,
+        error: null,
+      }
+
+      vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(async () => mock)
       const { getAnimeRandom } = animeStore.getState()
       await getAnimeRandom()
 
       const { random } = animeStore.getState()
 
       expect(AnimeService.getAnimeRandom).toHaveBeenCalledTimes(1)
-      expect(random).toStrictEqual(narutoMock)
+      expect(random).toStrictEqual(mock)
     })
 
     it('Deve atualizar mesmo que já exista um random na store', async () => {
+      const firstMock = {
+        data: narutoMock,
+        isLoading: false,
+        error: null,
+      }
+
+      const secondMock = {
+        data: bleachMock,
+        isLoading: false,
+        error: null,
+      }
+
       vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(
-        async () => bleachMock,
+        async () => firstMock,
       )
-      animeStore.setState({ random: narutoMock })
+      animeStore.setState({ random: secondMock })
 
       const { getAnimeRandom } = animeStore.getState()
       await getAnimeRandom()
 
       const { random } = animeStore.getState()
       expect(AnimeService.getAnimeRandom).toHaveBeenCalledTimes(1)
-      expect(random).toStrictEqual(bleachMock)
+      expect(random).toStrictEqual(firstMock)
     })
 
-    it('Deve retornar nulo em caso de response invalido', async () => {
-      vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(async () => null)
+    it('Deve retornar error e data nulo em caso de response invalido', async () => {
+      const mock = {
+        data: null,
+        isLoading: false,
+        error: ERROR.NOT_FOUND,
+      }
+      vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(async () => mock)
 
       const { getAnimeRandom } = animeStore.getState()
 
@@ -119,37 +174,40 @@ describe('Teste Unitário - animeStore', () => {
       const { random } = animeStore.getState()
 
       expect(AnimeService.getAnimeRandom).toHaveBeenCalledTimes(1)
-      expect(random).toBeNull()
+      expect(random).toStrictEqual(mock)
     })
   })
 
   describe('getAnimesByTitle', () => {
     it('Deve atualizar a store', async () => {
-      global.fetch = vi.fn().mockImplementationOnce(async () => {
-        return {
-          ok: true,
-          json: async () => {
-            return { data: getAnimesByTitleMock }
-          },
-        }
-      })
+      const mock = {
+        data: getAnimesByTitleMock,
+        error: null,
+        isLoading: false,
+      }
+
+      const fetcher = fetchData as any
+      fetcher.mockResolvedValue({ data: mock })
 
       const { getAnimesByTitle } = animeStore.getState()
 
-      await getAnimesByTitle('naruto')
+      await getAnimesByTitle('Bleach')
 
       const { byTitle } = animeStore.getState()
 
-      expect(global.fetch).toHaveBeenCalledTimes(1)
-      expect(byTitle).toStrictEqual(getAnimesByTitleMock)
+      expect(fetchData).toHaveBeenCalledTimes(1)
+      expect(byTitle).toStrictEqual(mock)
     })
 
     it('Deve retornar nulo em caso de response invalido', async () => {
-      global.fetch = vi.fn().mockImplementationOnce(async () => {
-        return {
-          ok: false,
-        }
-      })
+      const mock = {
+        data: null,
+        error: ERROR.NOT_FOUND,
+        isLoading: false,
+      }
+
+      const fetcher = fetchData as any
+      fetcher.mockResolvedValue({ data: mock })
 
       const { getAnimesByTitle } = animeStore.getState()
 
@@ -157,17 +215,26 @@ describe('Teste Unitário - animeStore', () => {
 
       const { byTitle } = animeStore.getState()
 
-      expect(global.fetch).toHaveBeenCalledTimes(1)
-      expect(byTitle).toBeNull()
+      expect(fetcher).toHaveBeenCalledTimes(1)
+      expect(byTitle).toStrictEqual(mock)
     })
 
     it('Não Deve atualizar caso já possua na store anime com mesmo nome', async () => {
-      animeStore.setState({ byTitle: getAnimesByTitleMock })
-      const { byTitle, getAnimesByTitle } = animeStore.getState()
-      await getAnimesByTitle('naruto')
+      const mock = {
+        data: getAnimesByTitleMock,
+        isLoading: false,
+        error: null,
+      }
 
-      expect(global.fetch).not.toHaveBeenCalled()
-      expect(byTitle).toStrictEqual(getAnimesByTitleMock)
+      const fetcher = fetchData as any
+      fetcher.mockResolvedValue({ data: mock })
+
+      animeStore.setState({ byTitle: mock })
+      const { byTitle, getAnimesByTitle } = animeStore.getState()
+      await getAnimesByTitle('Naruto')
+
+      expect(fetcher).not.toHaveBeenCalled()
+      expect(byTitle).toStrictEqual(mock)
     })
   })
 })
