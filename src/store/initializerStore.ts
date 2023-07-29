@@ -1,8 +1,9 @@
 'use client'
 
-import { useLayoutEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 import type { Anime } from '@/services/http/anime/schema'
+import { useIsomorphicLayoutEffect } from 'usehooks-ts'
 
 import type { DataResponse } from '@/lib/fetchData'
 
@@ -14,9 +15,9 @@ type Props = {
 
 export function InitializerStore({ random }: Partial<Props>) {
   const initializer = useRef(false)
-  const storedRandom = animeStore((store) => store.random)
+  const storedRandom = animeStore((state) => state.random)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!initializer.current) {
       animeStore.setState({
         random: random || storedRandom,

@@ -6,7 +6,7 @@ import { animeStore } from '@/store/animeStore'
 
 export function ResultHeading() {
   const [showTitle, setShowTitle] = useState(false)
-  const byTitle = animeStore((store) => store.byTitle)
+  const byTitle = animeStore((state) => state.byTitle)
 
   useEffect(() => {
     if (byTitle) {

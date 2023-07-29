@@ -1,5 +1,6 @@
 'use client'
-import type { HtmlHTMLAttributes } from 'react'
+
+import { useCallback, type HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiSearch } from 'react-icons/fi'
 
@@ -30,7 +31,7 @@ const formSchema = z.object({
 })
 
 export function Search({ className, ...rest }: Props) {
-  const getAnimesByTitle = animeStore((store) => store.getAnimesByTitle)
+  const getAnimesByTitle = animeStore((state) => state.getAnimesByTitle)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,9 +40,12 @@ export function Search({ className, ...rest }: Props) {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    getAnimesByTitle(values.title)
-  }
+  const onSubmit = useCallback(
+    (values: z.infer<typeof formSchema>) => {
+      getAnimesByTitle(values.title)
+    },
+    [getAnimesByTitle],
+  )
 
   return (
     <Form {...form}>

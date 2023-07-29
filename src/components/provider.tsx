@@ -1,17 +1,20 @@
 'use client'
 
 import { ThemeProvider } from 'next-themes'
-import { useState, type PropsWithChildren, useEffect } from 'react'
+import { useState, type PropsWithChildren } from 'react'
 import * as React from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
+import { useSsr, useEffectOnce } from 'usehooks-ts'
 
 import { isDevEnvironment, isMockEnabled } from '@/lib/utils'
 
 export function Provider({ children }: PropsWithChildren) {
   const [shouldRender, setShouldRender] = useState(false)
+  const { isBrowser } = useSsr()
+
   const reportAccessibility = async () => {
-    if (typeof window !== 'undefined' && isDevEnvironment()) {
+    if (isBrowser && isDevEnvironment()) {
       const axe = await import('@axe-core/react')
       const ReactDOM = await import('react-dom')
 
@@ -28,9 +31,9 @@ export function Provider({ children }: PropsWithChildren) {
     import('@/mocks/setup-msw').then(() => setShouldRender(true))
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     Promise.all([reportAccessibility(), initMocks()])
-  }, [])
+  })
 
   if (!shouldRender) return null
 

@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 
 export default function NotFound() {
   const router = useRouter()
+
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace('/')
