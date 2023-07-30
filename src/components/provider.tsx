@@ -1,16 +1,16 @@
 'use client'
 
 import { ThemeProvider } from 'next-themes'
-import { useState, type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
-import { useSsr, useEffectOnce } from 'usehooks-ts'
+import { useSsr, useEffectOnce, useBoolean } from 'usehooks-ts'
 
 import { isDevEnvironment, isMockEnabled } from '@/lib/utils'
 
 export function Provider({ children }: PropsWithChildren) {
-  const [shouldRender, setShouldRender] = useState(false)
+  const { setTrue, value } = useBoolean(false)
   const { isBrowser } = useSsr()
 
   const reportAccessibility = async () => {
@@ -24,18 +24,18 @@ export function Provider({ children }: PropsWithChildren) {
 
   const initMocks = async () => {
     if (!isMockEnabled()) {
-      setShouldRender(true)
+      setTrue()
       return
     }
 
-    import('@/mocks/setup-msw').then(() => setShouldRender(true))
+    import('@/mocks/setup-msw').then(() => setTrue())
   }
 
   useEffectOnce(() => {
     Promise.all([reportAccessibility(), initMocks()])
   })
 
-  if (!shouldRender) return null
+  if (!value) return null
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark">

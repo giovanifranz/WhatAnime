@@ -46,6 +46,7 @@ export function Footer() {
             </div>
           </div>
         </div>
+
         <Separator />
 
         <div className="flex flex-col gap-4">
@@ -57,7 +58,7 @@ export function Footer() {
             <Link
               data-testid="paypal"
               href="https://www.paypal.com/donate/?hosted_button_id=KJ9TK628E7N42"
-              className="rounded-full bg-neutral-100 p-2 text-neutral-800"
+              className="rounded-full bg-neutral-100 p-2 text-neutral-800 transition-all hover:opacity-90"
             >
               <RiPaypalFill size={56} />
             </Link>

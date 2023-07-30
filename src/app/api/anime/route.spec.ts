@@ -16,11 +16,7 @@ describe('Teste de Integração - Anime Route Handler', () => {
       const data = await GET(req)
 
       expect(data.status).toEqual(200)
-      expect(await data.json()).toStrictEqual({
-        data: getAnimesByTitleMock,
-        error: null,
-        isLoading: false,
-      })
+      expect(await data.json()).toStrictEqual(getAnimesByTitleMock)
     })
 
     it('Deve retornar status 400 em caso de falta de title', async () => {
@@ -31,11 +27,7 @@ describe('Teste de Integração - Anime Route Handler', () => {
       const data = await GET(req)
 
       expect(data.status).toEqual(400)
-      expect(await data.json()).toStrictEqual({
-        data: null,
-        error: ERROR.MISSING_QUERY_PARAM,
-        isLoading: false,
-      })
+      expect(await data.json()).toStrictEqual(ERROR.MISSING_QUERY_PARAM)
     })
 
     it('Deve retornar status 404 em caso de falha na resposta', async () => {
@@ -53,11 +45,7 @@ describe('Teste de Integração - Anime Route Handler', () => {
       const data = await GET(req)
 
       expect(data.status).toEqual(404)
-      expect(await data.json()).toStrictEqual({
-        data: null,
-        error: ERROR.NOT_FOUND,
-        isLoading: false,
-      })
+      expect(await data.json()).toStrictEqual(ERROR.NOT_FOUND)
     })
   })
 })

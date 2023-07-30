@@ -71,9 +71,7 @@ export const animeStore = create(
           },
         }))
 
-        const { data: response } = await fetchData<DataResponse<Anime>>(
-          `/api/anime?title=${title}`,
-        )
+        const response = await fetchData<Anime>(`/api/anime?title=${title}`)
 
         if (response?.error) {
           set((state) => ({

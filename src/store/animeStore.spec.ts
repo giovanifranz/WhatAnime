@@ -187,7 +187,7 @@ describe('Teste Unitário - animeStore', () => {
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue({ data: mock })
+      fetcher.mockResolvedValue(mock)
 
       const { getAnimesByTitle } = animeStore.getState()
 
@@ -207,7 +207,7 @@ describe('Teste Unitário - animeStore', () => {
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue({ data: mock })
+      fetcher.mockResolvedValue(mock)
 
       const { getAnimesByTitle } = animeStore.getState()
 
@@ -227,7 +227,7 @@ describe('Teste Unitário - animeStore', () => {
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue({ data: mock })
+      fetcher.mockResolvedValue(mock)
 
       animeStore.setState({ byTitle: mock })
       const { byTitle, getAnimesByTitle } = animeStore.getState()
