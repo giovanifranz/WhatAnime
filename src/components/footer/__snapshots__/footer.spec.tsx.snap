@@ -149,7 +149,7 @@ exports[`Footer > Deve renderizar o Footer corretamente 1`] = `
             This site is our baby, so please consider donating if you are able so that we can keep working on it!
           </p>
           <a
-            class="rounded-full bg-neutral-100 p-2 text-neutral-800"
+            class="rounded-full bg-neutral-100 p-2 text-neutral-800 transition-all hover:opacity-90"
             data-testid="paypal"
             href="https://www.paypal.com/donate/?hosted_button_id=KJ9TK628E7N42"
           >
