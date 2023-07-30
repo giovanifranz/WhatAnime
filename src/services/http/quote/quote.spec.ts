@@ -1,4 +1,4 @@
-import { ERROR } from '@/common/enum'
+import { CUSTOM_ERROR } from '@/common/enum'
 import { quoteMock } from '@/mocks'
 import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
@@ -24,7 +24,7 @@ describe('Teste de Integração - Quote Service', () => {
 
       const response = await service.getRandomQuote()
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.error).toEqual(CUSTOM_ERROR.PARSING)
       expect(response.isLoading).toBeFalsy()
     })
 
@@ -37,7 +37,7 @@ describe('Teste de Integração - Quote Service', () => {
 
       const response = await service.getRandomQuote()
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })

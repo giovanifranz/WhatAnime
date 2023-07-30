@@ -5,15 +5,15 @@ import { animeStore } from '@/store/animeStore'
 import { Content } from './content'
 
 export default function Fetched() {
-  const { data, isLoading, error } = animeStore((state) => ({
-    data: state.byTitle?.data,
+  const { anime, isLoading, error } = animeStore((state) => ({
+    anime: state.byTitle?.animeList[0],
     isLoading: state.byTitle?.isLoading,
     error: state.byTitle?.error,
   }))
 
   if (isLoading) return <p>Loading ...</p>
   if (error) return <p>Error ...</p>
-  if (!data?.anime) return null
+  if (!anime) return null
 
-  return <Content {...data.anime} />
+  return <Content {...anime} />
 }

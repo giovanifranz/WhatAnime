@@ -1,16 +1,29 @@
 import { AnimeService } from '@/services/http'
-import type { Anime, AnimeByTitle } from '@/services/http/anime/schema'
+import type { Anime } from '@/services/http/anime/schema'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { processAndConvertToLowerCase } from '@/lib/utils'
 
 import { fetchData, type DataResponse } from '@/lib/fetchData'
+import { ListChunk, listChunk } from '@/lib/listChunk'
 
-import { ByTitleSchema } from './schema'
+import { ByTitleSchema, InternalByTitleResponse } from './schema'
+
+interface StoreAnimeByTitle {
+  title: string
+  animeList: Anime[]
+  chunkedList: ListChunk
+  pagination: {
+    has_next_page: boolean
+    current_page: number
+  }
+  isLoading: boolean
+  error: string | null
+}
 
 type State = {
-  byTitle: DataResponse<AnimeByTitle> | null
+  byTitle: StoreAnimeByTitle | null
   byId: DataResponse<Anime> | null
   random: DataResponse<Anime> | null
   byPopularity: DataResponse<Anime[]> | null
@@ -22,12 +35,12 @@ type Actions = {
   getAnimesByTitle: (title: string) => Promise<void>
   getAnimeRandom: () => Promise<void>
   getAnimeById: (id: number) => Promise<void>
+  updateOthersAnimesByTitle: () => Promise<void>
 }
 
 export const initialState = {
   byTitle: null,
   byId: null,
-  othersTitles: null,
   random: null,
   byPopularity: null,
   byAiring: null,
@@ -45,13 +58,12 @@ export const animeStore = create(
 
         const { byTitle } = get()
 
-        if (byTitle?.data?.anime) {
-          const titles: string[] = [byTitle.data.anime.title]
+        if (byTitle?.title) {
+          const titles: string[] = [byTitle.title]
 
-          byTitle.data.othersAnimes.forEach((others, index) => {
-            if (others.animes[index]) {
-              titles.push(others.animes[index].title)
-            }
+          byTitle.animeList.forEach((animes) => {
+            if (!animes.title) return
+            titles.push(animes.title)
           })
 
           const exists = titles.find((value) => {
@@ -65,39 +77,94 @@ export const animeStore = create(
         set((state) => ({
           ...state,
           byTitle: {
-            data: null,
-            error: null,
+            title: '',
+            animeList: [],
+            chunkedList: [],
+            pagination: {
+              current_page: 0,
+              has_next_page: false,
+            },
             isLoading: true,
+            error: null,
           },
         }))
 
-        const response = await fetchData<Anime>(`/api/anime?title=${title}`)
+        const response = await fetchData<InternalByTitleResponse>(
+          `/api/anime?title=${title}`,
+        )
 
         if (response?.error) {
           set((state) => ({
             ...state,
             byTitle: {
-              data: null,
+              title: '',
+              animeList: [],
+              chunkedList: [],
+              pagination: {
+                current_page: 0,
+                has_next_page: false,
+              },
+              isLoading: false,
               error: response.error,
-              isLoading: response.isLoading,
             },
           }))
           return
         }
 
-        const parsedData = await ByTitleSchema.safeParseAsync(response?.data)
+        const parsedData = await ByTitleSchema.safeParseAsync(response.data)
 
         if (!parsedData.success) return
 
         set((state) => ({
           ...state,
           byTitle: {
-            data: parsedData.data,
-            error: null,
-            isLoading: false,
+            title,
+            animeList: parsedData.data.data,
+            chunkedList: listChunk(parsedData.data.data.slice(1)),
+            pagination: parsedData.data.pagination,
+            error: response.error,
+            isLoading: response.isLoading,
           },
         }))
       },
+      updateOthersAnimesByTitle: async () => {
+        const { byTitle } = get()
+
+        if (!byTitle?.pagination) return
+
+        const response = await fetchData<InternalByTitleResponse>(
+          `/api/anime?title=${byTitle.title}&page=${byTitle.pagination.current_page + 1}`,
+        )
+
+        if (response?.error) {
+          set((state) => ({
+            ...state,
+            byTitle: {
+              ...byTitle,
+              isLoading: true,
+              error: response.error,
+            },
+          }))
+          return
+        }
+
+        const parsedData = await ByTitleSchema.safeParseAsync(response.data)
+
+        if (!parsedData.success) return
+        const animeList = [...new Set([...byTitle.animeList, ...parsedData.data.data])]
+
+        set((state) => ({
+          ...state,
+          byTitle: {
+            ...byTitle,
+            animeList,
+            chunkedList: listChunk(animeList),
+            error: response.error,
+            isLoading: response.isLoading,
+          },
+        }))
+      },
+
       getAnimeRandom: async () => {
         const { random } = get()
         set((state) => ({

@@ -1,4 +1,5 @@
-import { REVALIDATE, ERROR } from '@/common/enum'
+import { REVALIDATE, CUSTOM_ERROR } from '@/common/enum'
+import { catchError, switchMap, map, of, lastValueFrom, from } from 'rxjs'
 
 import { DataResponse, fetchData } from '@/lib/fetchData'
 
@@ -9,8 +10,8 @@ import {
   MultipleResponse,
   RankingSchema,
   Ranking,
+  PaginationSchema,
   AnimeByTitle,
-  AnimeChunks,
 } from './schema'
 
 export const baseUrl = 'https://api.jikan.moe/v4'
@@ -20,62 +21,59 @@ type ServiceResponse<T> = Promise<DataResponse<T>>
 class Service {
   private api = baseUrl
 
-  private sortByScoreDescending(animes: Anime[]): AnimeByTitle | null {
-    const sortedAnimes = animes.sort((a, b) => {
-      if (a.score && b.score) return b.score - a.score
-      return 0
-    })
+  async getAnimesByTitle(title: string, page: number = 1): Promise<AnimeByTitle> {
+    return await lastValueFrom(
+      from(
+        fetchData<MultipleResponse>(
+          `${this.api}/anime?q=${encodeURIComponent(title)}&page=${page}`,
+        ),
+      ).pipe(
+        switchMap(async ({ data, error, isLoading }) => {
+          if (!data && error && !isLoading) {
+            throw new Error(CUSTOM_ERROR.NOT_FOUND)
+          }
 
-    const anime = sortedAnimes[0]
-    sortedAnimes.shift()
+          return data as MultipleResponse
+        }),
+        map(({ data, pagination }) => {
+          const listOfAnimes: Anime[] = []
 
-    const othersAnimes: AnimeChunks = []
-    let count = 0
+          for (const anime of data) {
+            const validate = AnimeSchema.safeParse(anime)
+            if (validate.success) {
+              listOfAnimes.push(validate.data)
+            }
+          }
 
-    for (let i = 0; i < animes.length; i += 4) {
-      for (let j = 1; j < 4; j += 4) {
-        count += 1
-      }
-
-      othersAnimes.push({
-        animes: animes.slice(i, i + 4),
-        page: count,
-      })
-    }
-
-    return {
-      anime,
-      othersAnimes,
-    }
-  }
-
-  getAnimesByTitle = async (title: string): ServiceResponse<AnimeByTitle> => {
-    return fetchData<MultipleResponse>(
-      `${this.api}/anime?q=${encodeURIComponent(title)}&sfw`,
-    ).then((response) => {
-      if (!response.data?.data) {
-        return {
-          error: response.error,
-          isLoading: response.isLoading,
-          data: null,
-        }
-      }
-
-      const animes: Anime[] = []
-
-      for (const anime of response.data.data) {
-        const validate = AnimeSchema.safeParse(anime)
-        if (validate.success) {
-          animes.push(validate.data)
-        }
-      }
-
-      return {
-        error: response.error,
-        isLoading: response.isLoading,
-        data: this.sortByScoreDescending(animes),
-      }
-    })
+          return {
+            listOfAnimes,
+            pagination: PaginationSchema.parse(pagination),
+          }
+        }),
+        map(({ listOfAnimes, pagination }) => {
+          return {
+            data: listOfAnimes,
+            pagination: {
+              has_next_page: pagination.has_next_page,
+              current_page: pagination.current_page,
+            },
+            error: null,
+            isLoading: false,
+          }
+        }),
+        catchError((error) => {
+          return of({
+            data: [] as Anime[],
+            pagination: {
+              has_next_page: false,
+              current_page: 0,
+            },
+            error: error ? CUSTOM_ERROR.PARSING : CUSTOM_ERROR.NOT_FOUND,
+            isLoading: false,
+          })
+        }),
+      ),
+    )
   }
 
   getAnimeById = async (id: number): ServiceResponse<Anime> => {
@@ -92,7 +90,7 @@ class Service {
 
       if (!validate.success) {
         return {
-          error: ERROR.PARSING,
+          error: CUSTOM_ERROR.PARSING,
           isLoading: false,
           data: null,
         }
@@ -122,7 +120,7 @@ class Service {
 
       if (!validate.success) {
         return {
-          error: ERROR.PARSING,
+          error: CUSTOM_ERROR.PARSING,
           isLoading: false,
           data: null,
         }

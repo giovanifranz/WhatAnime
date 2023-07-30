@@ -23,13 +23,14 @@ export default async function QuoteButton({ title }: Props) {
 
       animeStore.setState({
         animeQuote: {
-          data: result.data.anime,
+          data: result.data[0],
           isLoading: false,
           error: null,
         },
       })
+
       return {
-        id: result.data.anime.id,
+        id: result.data[0].id,
         isLoading: result.isLoading,
         error: result.error,
       }

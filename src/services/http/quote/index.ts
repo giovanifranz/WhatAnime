@@ -1,4 +1,4 @@
-import { ERROR, REVALIDATE } from '@/common/enum'
+import { CUSTOM_ERROR, REVALIDATE } from '@/common/enum'
 
 import { DataResponse, fetchData } from '@/lib/fetchData'
 
@@ -27,7 +27,7 @@ class Service {
 
       if (!validate.success) {
         return {
-          error: ERROR.PARSING,
+          error: CUSTOM_ERROR.PARSING,
           isLoading: false,
           data: null,
         }

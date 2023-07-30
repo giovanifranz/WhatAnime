@@ -60,7 +60,7 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           title: 'Naruto',
           episodes: 220,
           synopsis:
-            "Moments prior to Naruto Uzumaki's birth, a huge demon known as the Kyuubi, the Nine-Tailed Fox, attacked Konohagakure, the Hidden Leaf Village, and wreaked havoc. In order to put an end to the Kyuubi's rampage, the leader of the village, the Fourth Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto.\n\nNow, Naruto is a hyperactive and knuckle-headed ninja still living in Konohagakure. Shunned because of the Kyuubi inside him, Naruto struggles to find his place in the village, while his burning desire to become the Hokage of Konohagakure leads him not only to some great new friends, but also some deadly foes.\n\n[Written by MAL Rewrite]",
+            "Moments prior to Naruto Uzumaki's birth, a huge demon known as the Kyuubi, the Nine-Tailed Fox, attacked Konohagakure, the Hidden Leaf Village, and wreaked havoc. In order to put an end to the Kyuubi's ramcurrent_page, the leader of the village, the Fourth Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto.\n\nNow, Naruto is a hyperactive and knuckle-headed ninja still living in Konohagakure. Shunned because of the Kyuubi inside him, Naruto struggles to find his place in the village, while his burning desire to become the Hokage of Konohagakure leads him not only to some great new friends, but also some deadly foes.\n\n[Written by MAL Rewrite]",
           year: 2002,
           score: 7.99,
         },
@@ -85,7 +85,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 7.68,
         },
       ],
-      page: 1,
+      current_page: 1,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
     {
       animes: [
@@ -130,7 +133,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 7.4,
         },
       ],
-      page: 2,
+      current_page: 2,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
     {
       animes: [
@@ -175,7 +181,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 7.29,
         },
       ],
-      page: 3,
+      current_page: 3,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
     {
       animes: [
@@ -220,7 +229,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 7.12,
         },
       ],
-      page: 4,
+      current_page: 4,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
     {
       animes: [
@@ -267,7 +279,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 6.78,
         },
       ],
-      page: 5,
+      current_page: 5,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
     {
       animes: [
@@ -311,7 +326,10 @@ export const getAnimesByTitleMock: AnimeByTitle = {
           score: 5.48,
         },
       ],
-      page: 6,
+      current_page: 6,
+      current_mal_page: 2,
+      has_next_page: true,
+      last_visible_mal_page: 2,
     },
   ],
 }

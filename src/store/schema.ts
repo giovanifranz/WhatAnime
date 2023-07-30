@@ -1,6 +1,12 @@
 import { z } from 'zod'
 
-const AnimeSchema = z.object({
+export const PaginationSchema = z.object({
+  has_next_page: z.boolean(),
+  current_page: z.number(),
+})
+export type Pagination = z.infer<typeof PaginationSchema>
+
+export const AnimeSchema = z.object({
   id: z.number(),
   image: z.string(),
   title: z.string(),
@@ -9,13 +15,11 @@ const AnimeSchema = z.object({
   year: z.union([z.number(), z.null()]),
   score: z.union([z.number(), z.null()]),
 })
-
-const OthersAnimeSchema = z.object({
-  animes: z.array(AnimeSchema),
-  page: z.number(),
-})
+export type Anime = z.infer<typeof AnimeSchema>
 
 export const ByTitleSchema = z.object({
-  anime: AnimeSchema,
-  othersAnimes: z.array(OthersAnimeSchema),
+  data: z.array(AnimeSchema),
+  pagination: PaginationSchema,
 })
+
+export type InternalByTitleResponse = z.infer<typeof ByTitleSchema>

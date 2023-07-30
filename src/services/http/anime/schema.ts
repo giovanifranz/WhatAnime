@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { DataResponse } from '@/lib/fetchData'
+
 export const ImageSchema = z.object({
   image_url: z.union([z.null(), z.string()]).optional(),
   small_image_url: z.union([z.null(), z.string()]).optional(),
@@ -7,6 +9,7 @@ export const ImageSchema = z.object({
 })
 
 export type Image = z.infer<typeof ImageSchema>
+
 export const AnimeSchema = z
   .object({
     mal_id: z.number(),
@@ -51,22 +54,40 @@ export type SingleResponse = {
   data: z.input<typeof AnimeSchema>
 }
 
+export const ItemsSchema = z.object({
+  count: z.number(),
+  total: z.number(),
+  per_page: z.number(),
+})
+export type Items = z.infer<typeof ItemsSchema>
+
+export const PaginationSchema = z.object({
+  last_visible_page: z.number(),
+  has_next_page: z.boolean(),
+  current_page: z.number(),
+  items: ItemsSchema,
+})
+
+export type PaginationResponse = z.input<typeof PaginationSchema>
+
 export type MultipleResponse = {
   data: z.input<typeof MultipleAnimesSchema>
+  pagination: PaginationResponse
 }
 
 export type Anime = z.output<typeof AnimeSchema>
 
-const ChunksSchema = z.array(
+const AnimeChunksSchema = z.array(
   z.object({
     animes: MultipleAnimesSchema,
-    page: z.number(),
   }),
 )
 
-export type AnimeChunks = z.infer<typeof ChunksSchema>
+export type AnimeChunks = z.infer<typeof AnimeChunksSchema>
 
-export type AnimeByTitle = {
-  anime: Anime
-  othersAnimes: AnimeChunks
+export interface AnimeByTitle extends DataResponse<Anime[]> {
+  pagination: {
+    has_next_page: boolean
+    current_page: number
+  }
 }

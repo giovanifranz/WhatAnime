@@ -1,4 +1,4 @@
-import { ERROR } from '@/common/enum'
+import { CUSTOM_ERROR } from '@/common/enum'
 import { bleachMock, narutoMock, getAnimesByTitleMock } from '@/mocks'
 import { AnimeService } from '@/services/http'
 import { vi } from 'vitest'
@@ -84,7 +84,7 @@ describe('Teste Unitário - animeStore', () => {
       const mock = {
         data: null,
         isLoading: false,
-        error: ERROR.NOT_FOUND,
+        error: CUSTOM_ERROR.NOT_FOUND,
       }
       vi.spyOn(AnimeService, 'getAnimeById').mockImplementationOnce(async () => mock)
 
@@ -163,7 +163,7 @@ describe('Teste Unitário - animeStore', () => {
       const mock = {
         data: null,
         isLoading: false,
-        error: ERROR.NOT_FOUND,
+        error: CUSTOM_ERROR.NOT_FOUND,
       }
       vi.spyOn(AnimeService, 'getAnimeRandom').mockImplementationOnce(async () => mock)
 
@@ -202,7 +202,7 @@ describe('Teste Unitário - animeStore', () => {
     it('Deve retornar nulo em caso de response invalido', async () => {
       const mock = {
         data: null,
-        error: ERROR.NOT_FOUND,
+        error: CUSTOM_ERROR.NOT_FOUND,
         isLoading: false,
       }
 

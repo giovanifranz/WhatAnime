@@ -1,4 +1,4 @@
-import { ERROR } from '@/common/enum'
+import { CUSTOM_ERROR } from '@/common/enum'
 
 export type DataResponse<T> = {
   isLoading: boolean
@@ -24,7 +24,7 @@ export async function fetchData<T>(
     response.data = data
   } catch (error) {
     response.isLoading = false
-    response.error = ERROR.NOT_FOUND
+    response.error = CUSTOM_ERROR.NOT_FOUND
   }
 
   return response

@@ -1,4 +1,4 @@
-import { ERROR } from '@/common/enum'
+import { CUSTOM_ERROR } from '@/common/enum'
 import { getAnimesByTitleMock, onePieceMock } from '@/mocks'
 import { server } from '@/mocks/setup-msw/server'
 import { rest } from 'msw'
@@ -24,7 +24,7 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimeById(21)
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.error).toEqual(CUSTOM_ERROR.PARSING)
       expect(response.isLoading).toBeFalsy()
     })
 
@@ -37,7 +37,7 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimeById(21)
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })
@@ -75,7 +75,7 @@ describe('Teste de Integração - Anime Service', () => {
       const response = await service.getAnimesByTitle('Naruto')
 
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })
@@ -98,7 +98,7 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimeRandom()
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.PARSING)
+      expect(response.error).toEqual(CUSTOM_ERROR.PARSING)
       expect(response.isLoading).toBeFalsy()
     })
 
@@ -111,7 +111,7 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimeRandom()
       expect(response.data).toBeNull()
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })
@@ -149,7 +149,7 @@ describe('Teste de Integração - Anime Service', () => {
       const response = await service.getAnimesByAiring()
 
       expect(response.data?.length).toEqual(0)
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })
@@ -187,7 +187,7 @@ describe('Teste de Integração - Anime Service', () => {
       const response = await service.getAnimesByPopularity()
 
       expect(response.data?.length).toEqual(0)
-      expect(response.error).toEqual(ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
   })

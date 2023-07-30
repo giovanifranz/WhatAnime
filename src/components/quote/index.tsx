@@ -25,7 +25,7 @@ export async function Quote({ className, ...rest }: Props) {
     >
       <p className="mb-2 line-clamp-3">{data.quote}</p>
 
-      <div className="absolute bottom-4 left-4 flex w-[200px] flex-col">
+      <div className="absolute bottom-4 left-4 flex w-40 flex-col">
         <span className="truncate font-bold">{data.character}</span>
         <span className="truncate">{data.title}</span>
       </div>
