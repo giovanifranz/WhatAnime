@@ -1,6 +1,7 @@
 import { CUSTOM_ERROR } from '@/common/enum'
 import { getAnimesByTitleMock } from '@/mocks'
 import { AnimeService } from '@/services/http'
+import { AnimeByTitle } from '@/services/http/anime/schema'
 import { createMocks } from 'node-mocks-http'
 import { vi } from 'vitest'
 
@@ -16,12 +17,12 @@ describe('Teste de Integração - Anime Route Handler', () => {
       const data = await GET(req)
 
       expect(data.status).toEqual(200)
-      expect(await data.json()).toStrictEqual(getAnimesByTitleMock)
+      expect(await data.json()).toStrictEqual(getAnimesByTitleMock.data)
     })
 
     it('Deve retornar status 400 em caso de falta de title', async () => {
       const { req } = createMocks({
-        url: 'http://localhost:3000/api/anime',
+        url: 'http://localhost:3000/api/anime?title=',
       })
 
       const data = await GET(req)
@@ -31,10 +32,14 @@ describe('Teste de Integração - Anime Route Handler', () => {
     })
 
     it('Deve retornar status 404 em caso de falha na resposta', async () => {
-      const mock = {
-        data: null,
+      const mock: AnimeByTitle = {
+        data: [],
         isLoading: false,
         error: CUSTOM_ERROR.NOT_FOUND,
+        pagination: {
+          has_next_page: false,
+          current_page: 0,
+        },
       }
       vi.spyOn(AnimeService, 'getAnimesByTitle').mockImplementationOnce(async () => mock)
 

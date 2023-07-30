@@ -61,14 +61,14 @@ class Service {
             isLoading: false,
           }
         }),
-        catchError((error) => {
+        catchError(() => {
           return of({
             data: [] as Anime[],
             pagination: {
               has_next_page: false,
               current_page: 0,
             },
-            error: error ? CUSTOM_ERROR.PARSING : CUSTOM_ERROR.NOT_FOUND,
+            error: CUSTOM_ERROR.NOT_FOUND,
             isLoading: false,
           })
         }),

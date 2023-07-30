@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
   const response = await AnimeService.getAnimesByTitle(title, page)
 
-  if (!response.data) return NextResponse.json(CUSTOM_ERROR.NOT_FOUND, { status: 404 })
+  if (response.error) return NextResponse.json(CUSTOM_ERROR.NOT_FOUND, { status: 404 })
 
   return NextResponse.json(
     {

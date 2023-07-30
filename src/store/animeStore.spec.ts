@@ -4,8 +4,9 @@ import { AnimeService } from '@/services/http'
 import { vi } from 'vitest'
 
 import { fetchData } from '@/lib/fetchData'
+import { listChunk } from '@/lib/listChunk'
 
-import { animeStore, initialState } from './animeStore'
+import { StoreAnimeByTitle, animeStore, initialState } from './animeStore'
 
 vi.mock('@/services/http/anime', () => {
   return {
@@ -180,18 +181,24 @@ describe('Teste Unitário - animeStore', () => {
 
   describe('getAnimesByTitle', () => {
     it('Deve atualizar a store', async () => {
-      const mock = {
-        data: getAnimesByTitleMock,
-        error: null,
+      const mock: StoreAnimeByTitle = {
+        animeList: getAnimesByTitleMock.data.data,
+        chunkedList: listChunk(getAnimesByTitleMock.data.data),
+        title: 'naruto',
+        pagination: {
+          has_next_page: true,
+          current_page: 1,
+        },
         isLoading: false,
+        error: null,
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue(mock)
+      fetcher.mockResolvedValue(getAnimesByTitleMock)
 
       const { getAnimesByTitle } = animeStore.getState()
 
-      await getAnimesByTitle('Bleach')
+      await getAnimesByTitle('Naruto')
 
       const { byTitle } = animeStore.getState()
 
@@ -200,14 +207,20 @@ describe('Teste Unitário - animeStore', () => {
     })
 
     it('Deve retornar nulo em caso de response invalido', async () => {
-      const mock = {
-        data: null,
-        error: CUSTOM_ERROR.NOT_FOUND,
+      const mock: StoreAnimeByTitle = {
+        animeList: [],
+        chunkedList: [],
+        title: '',
+        pagination: {
+          has_next_page: false,
+          current_page: 0,
+        },
         isLoading: false,
+        error: CUSTOM_ERROR.NOT_FOUND,
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue(mock)
+      fetcher.mockResolvedValue(null)
 
       const { getAnimesByTitle } = animeStore.getState()
 
@@ -220,21 +233,27 @@ describe('Teste Unitário - animeStore', () => {
     })
 
     it('Não Deve atualizar caso já possua na store anime com mesmo nome', async () => {
-      const mock = {
-        data: getAnimesByTitleMock,
+      const ByTitleMock: StoreAnimeByTitle = {
+        animeList: getAnimesByTitleMock.data.data,
+        chunkedList: listChunk(getAnimesByTitleMock.data.data),
+        title: 'Naruto',
+        pagination: {
+          has_next_page: false,
+          current_page: 1,
+        },
         isLoading: false,
         error: null,
       }
 
       const fetcher = fetchData as any
-      fetcher.mockResolvedValue(mock)
+      fetcher.mockResolvedValue(getAnimesByTitleMock)
 
-      animeStore.setState({ byTitle: mock })
+      animeStore.setState({ byTitle: ByTitleMock })
       const { byTitle, getAnimesByTitle } = animeStore.getState()
       await getAnimesByTitle('Naruto')
 
       expect(fetcher).not.toHaveBeenCalled()
-      expect(byTitle).toStrictEqual(mock)
+      expect(byTitle).toStrictEqual(ByTitleMock)
     })
   })
 })

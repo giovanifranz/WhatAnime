@@ -1,7 +1,5 @@
 import { z } from 'zod'
 
-import { DataResponse } from '@/lib/fetchData'
-
 export const ImageSchema = z.object({
   image_url: z.union([z.null(), z.string()]).optional(),
   small_image_url: z.union([z.null(), z.string()]).optional(),
@@ -85,9 +83,13 @@ const AnimeChunksSchema = z.array(
 
 export type AnimeChunks = z.infer<typeof AnimeChunksSchema>
 
-export interface AnimeByTitle extends DataResponse<Anime[]> {
-  pagination: {
-    has_next_page: boolean
-    current_page: number
-  }
-}
+const AnimeByTitleSchema = z.object({
+  pagination: z.object({
+    has_next_page: z.boolean(),
+    current_page: z.number(),
+  }),
+  data: MultipleAnimesSchema,
+  isLoading: z.boolean(),
+  error: z.union([z.null(), z.string()]),
+})
+export type AnimeByTitle = z.infer<typeof AnimeByTitleSchema>

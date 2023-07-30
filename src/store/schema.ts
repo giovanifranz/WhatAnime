@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { DataResponse } from '@/lib/fetchData'
+
 export const PaginationSchema = z.object({
   has_next_page: z.boolean(),
   current_page: z.number(),
@@ -22,4 +24,6 @@ export const ByTitleSchema = z.object({
   pagination: PaginationSchema,
 })
 
-export type InternalByTitleResponse = z.infer<typeof ByTitleSchema>
+export interface InternalByTitleResponse extends DataResponse<Anime[]> {
+  pagination: Pagination
+}

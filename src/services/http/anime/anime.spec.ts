@@ -46,12 +46,12 @@ describe('Teste de Integração - Anime Service', () => {
     it('Deve retornar animes por título', async () => {
       const response = await service.getAnimesByTitle('Naruto')
 
-      expect(response.data).toStrictEqual(getAnimesByTitleMock)
+      expect(response.data).toStrictEqual(getAnimesByTitleMock.data.data)
       expect(response.error).toBeNull()
       expect(response.isLoading).toBeFalsy()
     })
 
-    it('Deve retornar nulo em caso de valor invalido', async () => {
+    it('Deve retornar error em caso de valor invalido', async () => {
       server.use(
         rest.get(`${baseUrl}/anime`, (_, res, ctx) => {
           return res(ctx.delay(100), ctx.json({ invalidData: true }))
@@ -60,8 +60,8 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimesByTitle('Naruto')
 
-      expect(response.data).toBeNull()
-      expect(response.error).toBeNull()
+      expect(response.data).toEqual([])
+      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })
 
@@ -74,7 +74,7 @@ describe('Teste de Integração - Anime Service', () => {
 
       const response = await service.getAnimesByTitle('Naruto')
 
-      expect(response.data).toBeNull()
+      expect(response.data).toEqual([])
       expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
       expect(response.isLoading).toBeFalsy()
     })

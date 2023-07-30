@@ -1,3 +1,4 @@
+import { CUSTOM_ERROR } from '@/common/enum'
 import { AnimeService } from '@/services/http'
 import type { Anime } from '@/services/http/anime/schema'
 import { create } from 'zustand'
@@ -10,7 +11,7 @@ import { ListChunk, listChunk } from '@/lib/listChunk'
 
 import { ByTitleSchema, InternalByTitleResponse } from './schema'
 
-interface StoreAnimeByTitle {
+export interface StoreAnimeByTitle {
   title: string
   animeList: Anime[]
   chunkedList: ListChunk
@@ -93,7 +94,7 @@ export const animeStore = create(
           `/api/anime?title=${title}`,
         )
 
-        if (response?.error) {
+        if (!response || response?.error) {
           set((state) => ({
             ...state,
             byTitle: {
@@ -105,7 +106,7 @@ export const animeStore = create(
                 has_next_page: false,
               },
               isLoading: false,
-              error: response.error,
+              error: CUSTOM_ERROR.NOT_FOUND,
             },
           }))
           return
@@ -122,8 +123,8 @@ export const animeStore = create(
             animeList: parsedData.data.data,
             chunkedList: listChunk(parsedData.data.data.slice(1)),
             pagination: parsedData.data.pagination,
-            error: response.error,
-            isLoading: response.isLoading,
+            error: null,
+            isLoading: false,
           },
         }))
       },
