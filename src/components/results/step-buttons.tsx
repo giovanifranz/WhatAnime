@@ -35,12 +35,16 @@ export default function StepButtons({
   const handleClick = useCallback(async () => {
     if (!canGoToNextStep && !hasNextPage) {
       setIsDisable(true)
+      return
     }
 
     if (!canGoToNextStep && hasNextPage) {
       setIsLoading(true)
-      await updateOthersAnimesByTitle()
-      setIsLoading(false)
+      updateOthersAnimesByTitle().then(() => {
+        setIsLoading(false)
+        goToNextStep()
+      })
+      return
     }
 
     goToNextStep()
