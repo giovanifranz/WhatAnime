@@ -36,7 +36,7 @@ type Actions = {
   getAnimesByTitle: (title: string) => Promise<void>
   getAnimeRandom: () => Promise<void>
   getAnimeById: (id: number) => Promise<void>
-  updateOthersAnimesByTitle: () => Promise<void>
+  updateAnimeByTitleList: () => Promise<void>
 }
 
 export const initialState = {
@@ -128,7 +128,7 @@ export const animeStore = create(
           },
         }))
       },
-      updateOthersAnimesByTitle: async () => {
+      updateAnimeByTitleList: async () => {
         const { byTitle } = get()
 
         if (!byTitle?.pagination) return
