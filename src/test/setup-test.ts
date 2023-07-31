@@ -3,6 +3,8 @@ import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 
+import 'vitest-canvas-mock'
+
 process.env.NEXT_PUBLIC_API_MOCKING = 'enabled'
 
 expect.extend(matchers)

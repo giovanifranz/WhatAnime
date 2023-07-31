@@ -83,6 +83,8 @@ exports[`Teste Unitário - Search > Deve renderizar o Search corretamente 1`] = 
           aria-invalid="false"
           class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           id=":r2:-form-item"
+          maxlength="30"
+          minlength="3"
           name="title"
           placeholder="Enter your search key word"
           type="text"
@@ -90,11 +92,13 @@ exports[`Teste Unitário - Search > Deve renderizar o Search corretamente 1`] = 
         />
       </div>
       <button
-        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+        class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-16"
         type="submit"
       >
         <svg
+          aria-hidden="true"
           fill="none"
+          focusable="false"
           height="20"
           stroke="currentColor"
           stroke-linecap="round"
@@ -116,8 +120,19 @@ exports[`Teste Unitário - Search > Deve renderizar o Search corretamente 1`] = 
             y2="16.65"
           />
         </svg>
+        <span
+          style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; word-wrap: normal;"
+        >
+          Search Button
+        </span>
       </button>
     </div>
+    <p
+      class="text-sm text-muted-foreground"
+      id="undefined-form-item-description"
+    >
+      Search your favorite Anime
+    </p>
   </form>
 </DocumentFragment>
 `;
