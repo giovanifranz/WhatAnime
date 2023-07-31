@@ -3,8 +3,11 @@
 import { useCallback, type HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiSearch } from 'react-icons/fi'
+import UseAnimations from 'react-useanimations'
+import loading from 'react-useanimations/lib/loading'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import * as AccessibleIcon from '@radix-ui/react-accessible-icon'
 import { z } from 'zod'
 
 import { cn } from '@/lib/utils'
@@ -12,7 +15,15 @@ import { cn } from '@/lib/utils'
 import { animeStore } from '@/store/animeStore'
 
 import { Button } from './ui/button'
-import { FormField, FormItem, FormLabel, FormControl, Form } from './ui/form'
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  Form,
+  FormDescription,
+  FormMessage,
+} from './ui/form'
 import { Input } from './ui/input'
 import {
   Select,
@@ -31,7 +42,11 @@ const formSchema = z.object({
 })
 
 export function Search({ className, ...rest }: Props) {
-  const getAnimesByTitle = animeStore((state) => state.getAnimesByTitle)
+  const { getAnimesByTitle, isLoading, error } = animeStore((state) => ({
+    getAnimesByTitle: state.getAnimesByTitle,
+    isLoading: state.byTitle?.isLoading || false,
+    error: state.byTitle?.error || null,
+  }))
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -90,6 +105,8 @@ export function Search({ className, ...rest }: Props) {
                 <FormControl>
                   <Input
                     type="text"
+                    minLength={3}
+                    maxLength={30}
                     placeholder="Enter your search key word"
                     {...field}
                   />
@@ -97,10 +114,17 @@ export function Search({ className, ...rest }: Props) {
               </FormItem>
             )}
           />
-          <Button type="submit">
-            <FiSearch size={20} />
+          <Button type="submit" className="w-16" disabled={isLoading}>
+            <AccessibleIcon.Root label="Search Button">
+              {isLoading ? <UseAnimations animation={loading} /> : <FiSearch size={20} />}
+            </AccessibleIcon.Root>
           </Button>
         </div>
+        {!error ? (
+          <FormDescription>Search your favorite Anime</FormDescription>
+        ) : (
+          <FormMessage className="capitalize">{error}</FormMessage>
+        )}
       </form>
     </Form>
   )
