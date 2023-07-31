@@ -228,4 +228,5 @@ class Service {
   }
 }
 
-export default new Service()
+const AnimeService = new Service()
+export default AnimeService

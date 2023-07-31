@@ -42,4 +42,5 @@ class Service {
   }
 }
 
-export default new Service()
+const QuoteService = new Service()
+export default QuoteService
