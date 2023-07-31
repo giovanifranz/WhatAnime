@@ -10,7 +10,6 @@ export function ResultHeading() {
     showTitle: state.byTitle,
   }))
 
-  console.log(showTitle)
   if (isLoading) return <Skeleton className="h-full w-28" />
 
   return showTitle && <h2>Result</h2>
