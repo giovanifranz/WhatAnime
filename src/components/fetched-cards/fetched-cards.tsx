@@ -10,9 +10,7 @@ import { animeStore } from '@/store/animeStore'
 import { Skeleton } from './skeleton'
 import StepButtons from './step-buttons'
 
-const MiniCard = dynamic(() => import('./mini-card'), {
-  loading: () => <Skeleton />,
-})
+const MiniCard = dynamic(() => import('./mini-card'))
 
 export default function FetchedCards() {
   const { list, isLoading, error, title } = animeStore((state) => ({
