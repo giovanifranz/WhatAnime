@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ImArrowRight2, ImArrowLeft2 } from 'react-icons/im'
 import UseAnimations from 'react-useanimations'
 import loading from 'react-useanimations/lib/loading'
 
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon'
+import { useUpdateEffect } from 'usehooks-ts'
 
 import { animeStore } from '@/store/animeStore'
 
@@ -49,7 +50,7 @@ export default function StepButtons({
     }
   }, [canGoToNextStep, hasNextPage, updateAnimeByTitleList])
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     updateList()
   }, [updateList])
 
@@ -74,7 +75,11 @@ export default function StepButtons({
           )}
         </span>
       </Button>
-      <Button type="button" disabled={isDisable || isLoading} onClick={handleClick}>
+      <Button
+        type="button"
+        disabled={isDisable || isLoading || currentStep === 10}
+        onClick={handleClick}
+      >
         <ImArrowRight2 size={20} />
       </Button>
     </div>

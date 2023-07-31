@@ -17,7 +17,7 @@ export default function CardHeader({ episodes, title, score, id }: Props) {
   const { width } = useWindowSize()
   return (
     <UiCardHeader className="flex flex-row items-center justify-between p-0">
-      <div className="flex h-14 max-w-[280px] flex-col justify-center">
+      <div className="flex h-14 max-w-[130px] flex-col justify-center md:max-w-[280px]">
         <CardTitle className="truncate text-lg ">{title}</CardTitle>
         <span>Episodes: {episodes}</span>
       </div>
