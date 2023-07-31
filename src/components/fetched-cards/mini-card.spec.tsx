@@ -1,6 +1,6 @@
 import { render, screen } from '@/test/test-utils'
 
-import { MiniCard } from './mini-card'
+import MiniCard from './mini-card'
 
 describe('Teste Unitário - MiniCard', () => {
   it('Deve renderizar o MiniCard corretamente', async () => {

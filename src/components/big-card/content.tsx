@@ -8,12 +8,17 @@ import CardHeader from './header'
 
 type Props = Pick<Anime, 'id' | 'title' | 'image' | 'episodes' | 'score' | 'synopsis'>
 
-function Component({ id, title, image, episodes, score, synopsis }: Props) {
+const Content = memo(({ id, title, image, episodes, score, synopsis }: Props) => {
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
-      <div className="relative w-56 rounded-l-lg border-r-2">
-        <Image src={image} alt={title} fill />
-      </div>
+      <Image
+        src={image}
+        alt={title}
+        width={248}
+        height={346}
+        className="w-40 rounded-l-lg md:w-[246px]"
+      />
+
       <div className="flex w-full flex-col p-2 md:p-4">
         <CardHeader episodes={episodes} id={id} score={score} title={title} />
         {synopsis && (
@@ -27,7 +32,7 @@ function Component({ id, title, image, episodes, score, synopsis }: Props) {
       </div>
     </article>
   )
-}
+})
 
-export const Content = memo(Component)
 Content.displayName = 'Content'
+export default Content

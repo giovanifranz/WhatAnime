@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, type HtmlHTMLAttributes } from 'react'
+import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiSearch } from 'react-icons/fi'
 import UseAnimations from 'react-useanimations'
@@ -9,8 +9,6 @@ import loading from 'react-useanimations/lib/loading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon'
 import { z } from 'zod'
-
-import { cn } from '@/lib/utils'
 
 import { animeStore } from '@/store/animeStore'
 
@@ -34,14 +32,12 @@ import {
   SelectValue,
 } from './ui/select'
 
-type Props = HtmlHTMLAttributes<HTMLFormElement>
-
 const formSchema = z.object({
   title: z.string().min(3).max(30),
   select: z.enum(['word', 'upload']),
 })
 
-export function Search({ className, ...rest }: Props) {
+export function Search() {
   const { getAnimesByTitle, isLoading, error } = animeStore((state) => ({
     getAnimesByTitle: state.getAnimesByTitle,
     isLoading: state.byTitle?.isLoading || false,
@@ -66,8 +62,7 @@ export function Search({ className, ...rest }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn('flex flex-col gap-4 max-w-4xl justify-center', className)}
-        {...rest}
+        className="flex h-48 max-w-4xl flex-col justify-center gap-4"
       >
         <FormField
           control={form.control}

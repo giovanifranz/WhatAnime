@@ -55,15 +55,20 @@ export default function StepButtons({
   }, [updateList])
 
   return (
-    <div className="flex gap-2 p-2 pl-0">
-      <Button type="button" disabled={currentStep === 1} onClick={goToPrevStep}>
+    <div className="flex w-40 justify-between gap-2 md:w-48">
+      <Button
+        type="button"
+        disabled={currentStep === 1}
+        onClick={goToPrevStep}
+        className="h-12 w-12 md:w-14"
+      >
         <ImArrowLeft2 size={20} />
       </Button>
       <Button
         asChild
         type="button"
         disabled={isDisable || isLoading}
-        className="w-14 font-semibold"
+        className="h-12 w-12 font-semibold md:w-14"
       >
         <span>
           {isLoading ? (
@@ -76,6 +81,7 @@ export default function StepButtons({
         </span>
       </Button>
       <Button
+        className="h-12 w-12 md:w-14"
         type="button"
         disabled={isDisable || isLoading || currentStep === 10}
         onClick={handleClick}

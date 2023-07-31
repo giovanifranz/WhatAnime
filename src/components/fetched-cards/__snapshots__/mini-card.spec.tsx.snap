@@ -6,7 +6,7 @@ exports[`Teste Unitário - MiniCard > Deve renderizar o MiniCard corretamente 1`
     !function(){try{var d=document.documentElement,c=d.classList;c.remove('light','dark');var e=localStorage.getItem('theme');if('system'===e||(!e&&false)){var t='(prefers-color-scheme: dark)',m=window.matchMedia(t);if(m.media!==t||m.matches){d.style.colorScheme = 'dark';c.add('dark')}else{d.style.colorScheme = 'light';c.add('light')}}else if(e){c.add(e|| '')}else{c.add('dark')}if(e==='light'||e==='dark'||!e)d.style.colorScheme=e||'dark'}catch(e){}}()
   </script>
   <div
-    class="rounded-lg border text-card-foreground shadow-sm relative h-64 w-40 bg-neutral-600 bg-cover md:w-44"
+    class="rounded-lg border text-card-foreground shadow-sm relative h-64 w-40 bg-neutral-600 bg-cover md:w-48"
     data-testid="mini-card"
     style="background-image: url(https://cdn.myanimelist.net/images/anime/13/17405.jpg);"
   >

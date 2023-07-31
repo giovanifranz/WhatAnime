@@ -1,12 +1,8 @@
-import type { HtmlHTMLAttributes } from 'react'
-
 import { AnimeService } from '@/services/http'
-
-import { cn } from '@/lib/utils'
 
 import ListItem from './item'
 
-type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+type Props = {
   type: 'airing' | 'popular'
 }
 
@@ -21,7 +17,7 @@ const rankingMap = {
   },
 } as const
 
-export async function Ranking({ className, type, ...rest }: Props) {
+export async function Ranking({ type, ...rest }: Props) {
   const { getAnimes, heading } = rankingMap[type]
 
   const { data, error, isLoading } = await getAnimes()
@@ -32,10 +28,7 @@ export async function Ranking({ className, type, ...rest }: Props) {
 
   return (
     <section
-      className={cn(
-        'bg-neutral-700 rounded-lg min-h-fit hidden lg:flex flex-col',
-        className,
-      )}
+      className="hidden min-h-fit flex-col rounded-lg bg-neutral-700 lg:flex"
       {...rest}
     >
       <h2 className="scroll-m-20 rounded-t-lg bg-yellow-400 p-2 text-center text-2xl font-semibold uppercase tracking-tight text-neutral-800 md:text-3xl">

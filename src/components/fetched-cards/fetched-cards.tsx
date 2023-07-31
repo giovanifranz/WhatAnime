@@ -1,14 +1,18 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { useEffect } from 'react'
 
-import { useStep } from 'usehooks-ts'
+import { useStep, useUpdateEffect } from 'usehooks-ts'
 
 import { animeStore } from '@/store/animeStore'
 
-import { MiniCard } from './mini-card'
+import { Skeleton } from './skeleton'
 import StepButtons from './step-buttons'
+
+const MiniCard = dynamic(() => import('./mini-card'), {
+  loading: () => <Skeleton />,
+})
 
 export default function FetchedCards() {
   const { list, isLoading, error, title } = animeStore((state) => ({
@@ -22,17 +26,17 @@ export default function FetchedCards() {
 
   const { canGoToNextStep, goToNextStep, goToPrevStep, reset } = helpers
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     reset()
   }, [reset, title])
 
-  if (isLoading) return <p>Loading ...</p>
+  if (isLoading) return <Skeleton />
   if (error) return <p>Error ...</p>
   if (list.length <= 0) return null
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap justify-between gap-2">
+      <div className="flex flex-wrap justify-between gap-2">
         {list[currentStep - 1] &&
           list[currentStep - 1].animes.map(({ id, image, title }) => (
             <Link
