@@ -22,58 +22,86 @@ class Service {
   private api = baseUrl
 
   async getAnimesByTitle(title: string, page: number = 1): Promise<AnimeByTitle> {
-    return await lastValueFrom(
-      from(
-        fetchData<MultipleResponse>(
-          `${this.api}/anime?q=${encodeURIComponent(title)}&page=${page}`,
-        ),
-      ).pipe(
-        switchMap(async ({ data, error, isLoading }) => {
-          if (!data && error && !isLoading) {
-            throw new Error(CUSTOM_ERROR.NOT_FOUND)
-          }
+    const response: AnimeByTitle = {
+      data: [],
+      pagination: {
+        has_next_page: false,
+        current_page: 0,
+      },
+      error: null,
+      isLoading: true,
+    }
 
-          return data as MultipleResponse
-        }),
-        map(({ data, pagination }) => {
-          const listOfAnimes: Anime[] = []
+    if (!title) {
+      response.error = CUSTOM_ERROR.NOT_FOUND
+      return response
+    }
 
-          for (const anime of data) {
-            const validate = AnimeSchema.safeParse(anime)
-            if (validate.success) {
-              listOfAnimes.push(validate.data)
-            }
-          }
-
-          return {
-            listOfAnimes,
-            pagination: PaginationSchema.parse(pagination),
-          }
-        }),
-        map(({ listOfAnimes, pagination }) => {
-          return {
-            data: listOfAnimes,
-            pagination: {
-              has_next_page: pagination.has_next_page,
-              current_page: pagination.current_page,
-            },
-            error: null,
-            isLoading: false,
-          }
-        }),
-        catchError(() => {
-          return of({
-            data: [] as Anime[],
-            pagination: {
-              has_next_page: false,
-              current_page: 0,
-            },
-            error: CUSTOM_ERROR.NOT_FOUND,
-            isLoading: false,
-          })
-        }),
+    const $observable = from(
+      fetchData<MultipleResponse>(
+        `${this.api}/anime?q=${encodeURIComponent(title)}&page=${page}`,
       ),
+    ).pipe(
+      switchMap(async ({ data }) => {
+        if (!data) {
+          throw new Error(CUSTOM_ERROR.NOT_FOUND)
+        }
+
+        return data
+      }),
+      map(({ data, pagination }) => {
+        const listOfAnimes: Anime[] = []
+
+        for (const anime of data) {
+          const validate = AnimeSchema.safeParse(anime)
+
+          if (validate.success) {
+            listOfAnimes.push(validate.data)
+          }
+        }
+
+        const validatePagination = PaginationSchema.safeParse(pagination)
+
+        if (!validatePagination.success) {
+          throw new Error(CUSTOM_ERROR.PARSING)
+        }
+
+        return {
+          listOfAnimes,
+          pagination: validatePagination.data,
+        }
+      }),
+
+      map(({ listOfAnimes, pagination }) => {
+        return {
+          data: listOfAnimes,
+          pagination: {
+            has_next_page: pagination.has_next_page,
+            current_page: pagination.current_page,
+          },
+          error: null,
+        }
+      }),
+      catchError((error: Error) => {
+        return of({
+          data: [],
+          pagination: {
+            has_next_page: false,
+            current_page: 0,
+          },
+          error: error.message,
+        })
+      }),
     )
+
+    const { data, pagination, error } = await lastValueFrom($observable)
+
+    response.data = data
+    response.pagination = pagination
+    response.error = error
+    response.isLoading = false
+
+    return response
   }
 
   getAnimeById = async (id: number): ServiceResponse<Anime> => {

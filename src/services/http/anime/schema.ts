@@ -92,4 +92,5 @@ const AnimeByTitleSchema = z.object({
   isLoading: z.boolean(),
   error: z.union([z.null(), z.string()]),
 })
+
 export type AnimeByTitle = z.infer<typeof AnimeByTitleSchema>

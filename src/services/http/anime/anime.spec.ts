@@ -61,7 +61,7 @@ describe('Teste de Integração - Anime Service', () => {
       const response = await service.getAnimesByTitle('Naruto')
 
       expect(response.data).toEqual([])
-      expect(response.error).toEqual(CUSTOM_ERROR.NOT_FOUND)
+      expect(response.error).toEqual(CUSTOM_ERROR.PARSING)
       expect(response.isLoading).toBeFalsy()
     })
 
