@@ -10,7 +10,7 @@ export function MiniCard({ image, title }: Props) {
   return (
     <Card
       data-testid="mini-card"
-      className={'relative  h-64 w-44 bg-neutral-600 bg-cover'}
+      className={'relative h-64 w-40 bg-neutral-600 bg-cover md:w-44'}
       style={{ backgroundImage: `url(${image})` }}
     >
       <CardFooter className="absolute inset-x-0 bottom-0 flex justify-center rounded-b-lg bg-yellow-400 p-1 px-0">

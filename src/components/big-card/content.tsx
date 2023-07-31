@@ -11,7 +11,7 @@ type Props = Pick<Anime, 'id' | 'title' | 'image' | 'episodes' | 'score' | 'syno
 function Component({ id, title, image, episodes, score, synopsis }: Props) {
   return (
     <article className="flex h-64 rounded-lg bg-neutral-700 text-neutral-50">
-      <div className="relative w-56 rounded-l-lg border-r-2">
+      <div className="relative w-56  rounded-l-lg border-r-2">
         <Image src={image} alt={title} fill />
       </div>
       <div className="flex w-full flex-col justify-between p-2 md:p-4">
@@ -19,7 +19,7 @@ function Component({ id, title, image, episodes, score, synopsis }: Props) {
         {synopsis && (
           <CardContent className="p-0">
             <h3 className="text-md font-semibold">Synopsis</h3>
-            <CardDescription className="text-md line-clamp-5 text-neutral-50">
+            <CardDescription className="text-md line-clamp-5 text-neutral-50 ">
               {synopsis}
             </CardDescription>
           </CardContent>
