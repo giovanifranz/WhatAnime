@@ -37,9 +37,7 @@ export default async function QuoteButton({ title }: Props) {
     },
   )
 
-  if (isLoading) return <p>Loading ...</p>
-  if (error) return <p>Error ...</p>
-  if (!id) return <p>Not found</p>
+  if (isLoading || error || !id) return null
 
   return (
     <Button asChild className="absolute bottom-4 right-4">

@@ -23,14 +23,14 @@ import {
   FormMessage,
 } from './ui/form'
 import { Input } from './ui/input'
-import {
+/*import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select'
+} from './ui/select'*/
 
 const formSchema = z.object({
   title: z.string().min(3).max(30),
@@ -64,17 +64,19 @@ export function Search() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex h-48 max-w-4xl flex-col justify-center gap-4"
       >
-        <FormField
-          control={form.control}
-          name="select"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex h-12 items-center gap-4">
-                <FormLabel className="scroll-m-20 text-2xl font-semibold uppercase tracking-tight md:text-3xl">
-                  Search
-                </FormLabel>
+        {
+          <FormField
+            control={form.control}
+            name="select"
+            render={
+              (/*{ field }*/) => (
+                <FormItem>
+                  <div className="flex h-12 items-center gap-4">
+                    <FormLabel className="scroll-m-20 text-2xl font-semibold uppercase tracking-tight md:text-3xl">
+                      Search
+                    </FormLabel>
 
-                <FormControl>
+                    {/*<FormControl>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger className="w-24">
                       <SelectValue placeholder="Word" />
@@ -86,11 +88,13 @@ export function Search() {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </FormControl>
-              </div>
-            </FormItem>
-          )}
-        />
+          </FormControl>*/}
+                  </div>
+                </FormItem>
+              )
+            }
+          />
+        }
         <div className="flex w-full max-w-full items-center space-x-2">
           <FormField
             control={form.control}
@@ -116,7 +120,9 @@ export function Search() {
           </Button>
         </div>
         {!error ? (
-          <FormDescription>Search your favorite Anime</FormDescription>
+          <FormDescription className="capitalize">
+            Search your favorite Anime
+          </FormDescription>
         ) : (
           <FormMessage className="capitalize">{error}</FormMessage>
         )}
